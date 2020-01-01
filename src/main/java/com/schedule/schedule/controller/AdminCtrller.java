@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
+//@CrossOrigin(origins = "http://domain2.com")
+@CrossOrigin
 public class AdminCtrller {
 
     private EmployeeSvc employeeSvc;
