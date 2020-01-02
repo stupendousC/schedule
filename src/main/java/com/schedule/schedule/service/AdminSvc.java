@@ -15,9 +15,16 @@ public class AdminSvc {
     private AdminRepository adminRepository;
 
     public List<Admin> findAll() {
+
+        // just printing, delete this chunk later
         System.out.println("\nAdminSvc -> AdminRepository, to return #" + adminRepository.count() + "admin people");
+         Iterable<Admin> allAdmins = adminRepository.findAll();
+         allAdmins.forEach(staff ->
+                 System.out.println(staff.getName()));
+
        return (List<Admin>) adminRepository.findAll();
     }
+
 }
 
 
