@@ -6,14 +6,16 @@ import javax.persistence.*;
 public class Admin {
     @Id     // specifies the PK of an entity
     @Column(name = "id")       // redundant line bc dbObj.colName = javaObj.attribName
-    private Long id;
+    @SequenceGenerator(name="admin_id_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="admin_id_seq")
+    private int id;
 
     private String name;
     private String phone;
     private String email;
     private String address;
 
-    public Admin(Long id, String name, String phone, String email, String address) {
+    public Admin(int id, String name, String phone, String email, String address) {
         // used when receiving data from user input, to save to the admin table in postgres
         this.id = id;
         this.name = name;
@@ -25,6 +27,9 @@ public class Admin {
     public Admin() {
         // used when receiving data from postgres, to map to an Admin object here
     }
+
+
+
 
     // GETTERS & SETTERS
     public String getName() {

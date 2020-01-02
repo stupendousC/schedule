@@ -15,14 +15,20 @@ public class AdminSvc {
     private AdminRepository adminRepository;
 
     public List<Admin> findAll() {
-
-        // just printing, delete this chunk later
         System.out.println("\nAdminSvc -> AdminRepository, to return #" + adminRepository.count() + "admin people");
-         Iterable<Admin> allAdmins = adminRepository.findAll();
-         allAdmins.forEach(staff ->
-                 System.out.println(staff.getName()));
 
        return (List<Admin>) adminRepository.findAll();
+    }
+
+
+
+
+    //test
+    public Admin addNewAdmin(Admin admin) {
+        System.out.println("AdminSvc -> AdminDao, received new admin " + admin.getName());
+        Admin newAdmin = adminRepository.save(admin);
+
+        return newAdmin ;
     }
 
 }

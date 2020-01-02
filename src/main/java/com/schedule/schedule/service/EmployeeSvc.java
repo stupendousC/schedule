@@ -16,11 +16,7 @@ public class EmployeeSvc {
     private EmployeeRepository employeeRepository;
 
     public List<Employee> findAll() {
-        System.out.println("\nEmployeeSvc -> EmployeeRepository, to return #" + employeeRepository.count() + " employees");
-        Iterable<Employee> allAdmins = employeeRepository.findAll();
-        allAdmins.forEach(person ->
-                System.out.println(person.getName()));
-
+        System.out.println("EmployeeSvc -> EmployeeRepository, to return #" + employeeRepository.count() + " employees");
         return (List<Employee>) employeeRepository.findAll();
     }
 
