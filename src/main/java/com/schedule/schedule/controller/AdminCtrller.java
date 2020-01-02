@@ -27,13 +27,27 @@ public class AdminCtrller {
         return adminSvc.findAll();
     }
 
-    //testing
     @PostMapping("/admins")
     public Admin postAdmin(@RequestBody Admin admin) {
         System.out.println("\nAdminCtrller -> AdminSvc, POST /admin/admins to add new admin " + admin.getName());
         return adminSvc.addNewAdmin(admin);
     }
 
+    @GetMapping("/admins/{id}")
+    public Optional<Admin> getAdminById(@PathVariable long id) {
+        return adminSvc.getAdminById(id);
+    }
+
+    @PutMapping("/admins/{id}")
+    public Optional<Admin> updateAdminById(@PathVariable long id, @RequestBody Admin admin) {
+        return adminSvc.updateAdmin(id, admin);
+
+    }
+
+    @DeleteMapping("/admins/{id}")
+    public void deleteAdmin(@PathVariable long id) {
+        adminSvc.deleteAdmin(id);
+    }
 
 
     @Autowired
@@ -49,7 +63,7 @@ public class AdminCtrller {
 //    public Optional<Employee> getEmployeeById(@PathVariable int id) {
 //        return employeeSvc.getEmployeeById(id);
 //    }
-//
+////
 //
 //    @PostMapping("/employees")
 //    public void addNewEmployee(@RequestBody LinkedHashMap<String, String> payload) {
