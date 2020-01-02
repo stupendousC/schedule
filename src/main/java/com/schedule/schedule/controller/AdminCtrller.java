@@ -46,7 +46,7 @@ public class AdminCtrller {
 
     @DeleteMapping("/admins/{id}")
     public void deleteAdmin(@PathVariable long id) {
-    //TODO
+        adminSvc.deleteAdmin(id);
     }
 
 

@@ -28,12 +28,11 @@ public class AdminSvc {
     }
 
     public Optional<Admin> getAdminById(long id) {
-        System.out.println("AdminSvc -> AdminDao, getAdminById(" + id + ")");
         return adminRepository.findById(id);
     }
 
     public Optional<Admin> updateAdmin(long id, Admin newInfoAdmin) {
-        Optional<Admin> adminMaybe = getAdminById(id);
+        Optional<Admin> adminMaybe = adminRepository.findById(id);
 
         adminMaybe.ifPresent( user -> {
             user.setAddress(newInfoAdmin.getAddress());
@@ -44,6 +43,10 @@ public class AdminSvc {
         });
 
         return adminMaybe;
+    }
+
+    public void deleteAdmin(long id) {
+        adminRepository.deleteById(id);
     }
 }
 
