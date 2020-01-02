@@ -29,7 +29,7 @@ public class AdminCtrller {
 
     //testing
     @PostMapping("/admins")
-    public List<Admin> postAdmin(@RequestBody Admin admin) {
+    public Admin postAdmin(@RequestBody Admin admin) {
         System.out.println("\nAdminCtrller -> AdminSvc, POST /admin/admins to add new admin " + admin.getName());
         return adminSvc.addNewAdmin(admin);
     }

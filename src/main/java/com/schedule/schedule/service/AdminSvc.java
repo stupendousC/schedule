@@ -24,11 +24,11 @@ public class AdminSvc {
 
 
     //test
-    public List<Admin> addNewAdmin(Admin admin) {
+    public Admin addNewAdmin(Admin admin) {
         System.out.println("AdminSvc -> AdminDao, received new admin " + admin.getName());
         Admin newAdmin = adminRepository.save(admin);
 
-        return (List<Admin>) newAdmin;
+        return newAdmin ;
     }
 
 }
