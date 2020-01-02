@@ -38,6 +38,16 @@ public class AdminCtrller {
         return adminSvc.getAdminById(id);
     }
 
+    @PutMapping("/admins/{id}")
+    public Optional<Admin> updateAdminById(@PathVariable long id, @RequestBody Admin admin) {
+        return adminSvc.updateAdmin(id, admin);
+
+    }
+
+    @DeleteMapping("/admins/{id}")
+    public void deleteAdmin(@PathVariable long id) {
+    //TODO
+    }
 
 
     @Autowired

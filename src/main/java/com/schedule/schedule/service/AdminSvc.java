@@ -31,6 +31,20 @@ public class AdminSvc {
         System.out.println("AdminSvc -> AdminDao, getAdminById(" + id + ")");
         return adminRepository.findById(id);
     }
+
+    public Optional<Admin> updateAdmin(long id, Admin newInfoAdmin) {
+        Optional<Admin> adminMaybe = getAdminById(id);
+
+        adminMaybe.ifPresent( user -> {
+            user.setAddress(newInfoAdmin.getAddress());
+            user.setEmail(newInfoAdmin.getEmail());
+            user.setName(newInfoAdmin.getName());
+            user.setPhone(newInfoAdmin.getPhone());
+            adminRepository.save(user);
+        });
+
+        return adminMaybe;
+    }
 }
 
 
