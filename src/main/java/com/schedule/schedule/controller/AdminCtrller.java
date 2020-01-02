@@ -23,23 +23,24 @@ public class AdminCtrller {
 
     @GetMapping("/admins")
     public List<Admin> getAllAdmins(Model admin) {
+        System.out.println("\nAdminCtrller -> AdminSvc, going to /admin/admins for a list of all admin personnel");
         List<Admin> adminList = adminSvc.findAll();
-
-        admin.addAttribute("adminList", adminList);
-
         return adminList;
+
+        // why do i need this?  for html on server side?
+        // admin.addAttribute("adminList", adminList);
     }
-
-
-
-
-
-    private EmployeeSvc employeeSvc;
 
     @Autowired
-    public AdminCtrller(EmployeeSvc employeeSvc) {
-        this.employeeSvc = employeeSvc;
-    }
+    private EmployeeSvc employeeSvc;
+
+//      POSSIBLY RETIRING
+//    private EmployeeSvc employeeSvc;
+//
+//    @Autowired
+//    public AdminCtrller(EmployeeSvc employeeSvc) {
+//        this.employeeSvc = employeeSvc;
+//    }
 
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {

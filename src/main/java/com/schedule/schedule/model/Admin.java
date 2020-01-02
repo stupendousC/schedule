@@ -25,16 +25,6 @@ public class Admin {
         // used when receiving data from postgres, to map to an Admin object here
     }
 
-    @Override
-    public String toString() {
-
-        String adminStr = "Admin{" + "id=" + id +
-                ", name='" + name + '\'' +
-                ", email=" + email +
-                '}';
-        return adminStr;
-    }
-
     // GETTERS & SETTERS
     public String getName() {
         return name;
