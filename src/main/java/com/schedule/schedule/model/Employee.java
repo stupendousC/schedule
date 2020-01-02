@@ -1,71 +1,77 @@
 package com.schedule.schedule.model;
 
-public class Employee {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-    private final int id;
-    private final String oAuth_id;
+@Entity
+@Table (name = "employees")
+public class Employee {
+    @Id
+    private int id;
+    private String oauthid;
     private String name;
     private String address;
-    private String cell;
+    private String phone;
     private String email;
 
-    private static int currentAvailableId = 1;
-
-    public Employee(String oAuth_id, String name, String address, String cell, String email) {
-        this.oAuth_id = oAuth_id;
+    public Employee(String oauthid, String name, String address, String phone, String email) {
+        this.oauthid = oauthid;
         this.name = name;
         this.address = address;
-        this.cell = cell;
+        this.phone = phone;
         this.email = email;
-
-        this.id = assignID();
     }
 
-    private int assignID() {
-        this.currentAvailableId ++;
-        return currentAvailableId - 1;
-    }
+    public Employee() {}
 
-    // getters(), may not use all of them
-    public int getId() {
-        return id;
-    }
 
-    public String getoAuth_id() {
-        return oAuth_id;
-    }
 
+    // GETTER & SETTERS
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public String getCell() {
-        return cell;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
 
-    // setters(), for updatingEmployees
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setCell(String cell) {
-        this.cell = cell;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getOauthid() {
+        return oauthid;
+    }
+
+    public void setOauthid(String oauthid) {
+        this.oauthid = oauthid;
+    }
 }
+
+
 
