@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminSvc {
@@ -16,21 +17,20 @@ public class AdminSvc {
 
     public List<Admin> findAll() {
         System.out.println("\nAdminSvc -> AdminRepository, to return #" + adminRepository.count() + "admin people");
-
        return (List<Admin>) adminRepository.findAll();
     }
 
 
-
-
-    //test
     public Admin addNewAdmin(Admin admin) {
         System.out.println("AdminSvc -> AdminDao, received new admin " + admin.getName());
         Admin newAdmin = adminRepository.save(admin);
-
         return newAdmin ;
     }
 
+    public Optional<Admin> getAdminById(long id) {
+        System.out.println("AdminSvc -> AdminDao, getAdminById(" + id + ")");
+        return adminRepository.findById(id);
+    }
 }
 
 

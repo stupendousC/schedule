@@ -8,14 +8,14 @@ public class Admin {
     @Column(name = "id")       // redundant line bc dbObj.colName = javaObj.attribName
     @SequenceGenerator(name="admin_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="admin_id_seq")
-    private int id;
+    private long id;
 
     private String name;
     private String phone;
     private String email;
     private String address;
 
-    public Admin(int id, String name, String phone, String email, String address) {
+    public Admin(long id, String name, String phone, String email, String address) {
         // used when receiving data from user input, to save to the admin table in postgres
         this.id = id;
         this.name = name;

@@ -18,7 +18,6 @@ public class ScheduleApplication {
         logger.info(System.getenv("RDS_DB_NAME"));
         logger.info(System.getenv("RDS_PORT"));
         logger.info(System.getenv("RDS_USERNAME"));
-        logger.info(System.getenv("RDS_PASSWORD"));
 
         SpringApplication.run(ScheduleApplication.class, args);
     }

@@ -27,11 +27,15 @@ public class AdminCtrller {
         return adminSvc.findAll();
     }
 
-    //testing
     @PostMapping("/admins")
     public Admin postAdmin(@RequestBody Admin admin) {
         System.out.println("\nAdminCtrller -> AdminSvc, POST /admin/admins to add new admin " + admin.getName());
         return adminSvc.addNewAdmin(admin);
+    }
+
+    @GetMapping("/admins/{id}")
+    public Optional<Admin> getAdminById(@PathVariable long id) {
+        return adminSvc.getAdminById(id);
     }
 
 
@@ -49,7 +53,7 @@ public class AdminCtrller {
 //    public Optional<Employee> getEmployeeById(@PathVariable int id) {
 //        return employeeSvc.getEmployeeById(id);
 //    }
-//
+////
 //
 //    @PostMapping("/employees")
 //    public void addNewEmployee(@RequestBody LinkedHashMap<String, String> payload) {
