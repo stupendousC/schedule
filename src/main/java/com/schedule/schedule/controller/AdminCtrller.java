@@ -1,9 +1,11 @@
 package com.schedule.schedule.controller;
 
+import com.schedule.schedule.model.Admin;
 import com.schedule.schedule.model.Employee;
-//import com.schedule.schedule.service.AdminSvc;
+import com.schedule.schedule.service.AdminSvc;
 import com.schedule.schedule.service.EmployeeSvc;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -12,17 +14,31 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
-//@CrossOrigin(origins = "http://domain2.com")
+//@CrossOrigin(origins = {"http://domain2.com", "url2", etc})
 @CrossOrigin
 public class AdminCtrller {
 
+    @Autowired
+    private AdminSvc adminSvc;
+
+    @GetMapping("/admins")
+    public List<Admin> getAllAdmins(Model admin) {
+        List<Admin> adminList = adminSvc.findAll();
+
+        admin.addAttribute("adminList", adminList);
+
+        return adminList;
+    }
+
+
+
+
+
     private EmployeeSvc employeeSvc;
-//    private AdminSvc adminSvc;
 
     @Autowired
     public AdminCtrller(EmployeeSvc employeeSvc) {
         this.employeeSvc = employeeSvc;
-//        this.adminSvc = adminSvc;
     }
 
     @GetMapping("/employees")
