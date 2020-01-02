@@ -1,6 +1,7 @@
 package com.schedule.schedule.controller;
 
 import com.schedule.schedule.model.Employee;
+//import com.schedule.schedule.service.AdminSvc;
 import com.schedule.schedule.service.EmployeeSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,12 @@ import java.util.Optional;
 public class AdminCtrller {
 
     private EmployeeSvc employeeSvc;
+//    private AdminSvc adminSvc;
 
     @Autowired
     public AdminCtrller(EmployeeSvc employeeSvc) {
         this.employeeSvc = employeeSvc;
+//        this.adminSvc = adminSvc;
     }
 
     @GetMapping("/employees")
