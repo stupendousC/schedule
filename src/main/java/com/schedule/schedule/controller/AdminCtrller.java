@@ -23,18 +23,16 @@ public class AdminCtrller {
 
     @GetMapping("/admins")
     public List<Admin> getAllAdmins(Model admin) {
-        System.out.println("\nAdminCtrller -> AdminSvc, going to /admin/admins for a list of all admin personnel");
-        List<Admin> adminList = adminSvc.findAll();
-        return adminList;
-
-        // why do i need this?  for html on server side?
-        // admin.addAttribute("adminList", adminList);
+        System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all admin personnel");
+        return adminSvc.findAll();
     }
 
-//    @PostMapping("/admins")
-//    public List<Admin> postAdmin() {
-//
-//    }
+    //testing
+    @PostMapping("/admins")
+    public List<Admin> postAdmin(@RequestBody Admin admin) {
+        System.out.println("\nAdminCtrller -> AdminSvc, POST /admin/admins to add new admin " + admin.getName());
+        return adminSvc.addNewAdmin(admin);
+    }
 
 
 
