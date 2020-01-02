@@ -1,4 +1,3 @@
-
 package com.schedule.schedule.dao;
 
 import com.schedule.schedule.model.Admin;

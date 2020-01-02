@@ -1,0 +1,2 @@
+-- YES this DID insert into my table!
+-- INSERT INTO awesome (name, why) VALUES('oski', 'super loud farts');
