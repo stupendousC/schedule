@@ -18,8 +18,7 @@ public class Shift {
     private LocalTime start_time;
     private LocalTime end_time;
 
-    public Shift(long id, long employee_id, long client_id, LocalDate shift_date, LocalTime start_time, LocalTime end_time) {
-        this.id = id;
+    public Shift(long employee_id, long client_id, LocalDate shift_date, LocalTime start_time, LocalTime end_time) {
         this.employee_id = employee_id;
         this.client_id = client_id;
         this.shift_date = shift_date;

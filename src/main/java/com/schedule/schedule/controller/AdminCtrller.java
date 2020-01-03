@@ -1,13 +1,7 @@
 package com.schedule.schedule.controller;
 
-import com.schedule.schedule.model.Admin;
-import com.schedule.schedule.model.Client;
-import com.schedule.schedule.model.Employee;
-import com.schedule.schedule.model.Shift;
-import com.schedule.schedule.service.AdminSvc;
-import com.schedule.schedule.service.ClientSvc;
-import com.schedule.schedule.service.EmployeeSvc;
-import com.schedule.schedule.service.ShiftSvc;
+import com.schedule.schedule.model.*;
+import com.schedule.schedule.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +23,8 @@ public class AdminCtrller {
     private ClientSvc clientSvc;
     @Autowired
     private ShiftSvc shiftSvc;
+    @Autowired
+    private UnavailSvc unavailSvc;
 
     ////////////// CRUD admins //////////////
     @GetMapping("/admins")
@@ -140,5 +136,24 @@ public class AdminCtrller {
         shiftSvc.deleteShift(id);
     }
     ////////////// end CRUD shifts //////////////
+
+    ////////////// CRUD unavails //////////////
+    @GetMapping("/unavails")
+    public List<Unavail> getAllUnavails() { return unavailSvc.findAll(); }
+
+    @PostMapping("/unavails")
+    public Unavail postUnavail(@RequestBody Unavail unavail) { return unavailSvc.addNewUnavail(unavail);}
+
+    @GetMapping("/unavails/{id}")
+    public Optional<Unavail> getUnavailById(@PathVariable long id) { return unavailSvc.getUnavailById(id); }
+
+    @PutMapping("/unavails/{id}")
+    public Optional<Unavail> updateUnavailById(@PathVariable long id, @RequestBody Unavail unavail) {
+        return unavailSvc.updateUnavail(id, unavail);
+    }
+
+//    @DeleteMapping("/shifts/{id}")
+//    public void deleteUnavail(@PathVariable long id) { unavailSvc.deleteUnavail(id);}
+    ////////////// end CRUD unavails //////////////
 }
 
