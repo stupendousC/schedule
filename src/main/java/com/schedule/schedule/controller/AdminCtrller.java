@@ -20,7 +20,10 @@ public class AdminCtrller {
 
     @Autowired
     private AdminSvc adminSvc;
+    @Autowired
+    private EmployeeSvc employeeSvc;
 
+    ////////////// CRUD admins //////////////
     @GetMapping("/admins")
     public List<Admin> getAllAdmins(Model admin) {
         System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all admin personnel");
@@ -41,54 +44,42 @@ public class AdminCtrller {
     @PutMapping("/admins/{id}")
     public Optional<Admin> updateAdminById(@PathVariable long id, @RequestBody Admin admin) {
         return adminSvc.updateAdmin(id, admin);
-
     }
 
     @DeleteMapping("/admins/{id}")
     public void deleteAdmin(@PathVariable long id) {
         adminSvc.deleteAdmin(id);
     }
+    ////////////// end CRUD admins //////////////
 
 
-    @Autowired
-    private EmployeeSvc employeeSvc;
-
+    ////////////// CRUD employees //////////////
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         System.out.println("\nEmployeeCtrller -> EmployeeSvc, going to /admin/employees for a list of all Employee");
         return employeeSvc.findAll();
     }
 
-//    @GetMapping("/employees/{id}")
-//    public Optional<Employee> getEmployeeById(@PathVariable int id) {
-//        return employeeSvc.getEmployeeById(id);
-//    }
-////
-//
-//    @PostMapping("/employees")
-//    public void addNewEmployee(@RequestBody LinkedHashMap<String, String> payload) {
-//        //payload is a LinkedHashMap object
-//        employeeSvc.addNewEmployee(payload);
-//    }
-//
-//    @DeleteMapping("/employees/{id}")
-//    public void deleteEmployee(@PathVariable int id) {
-//        employeeSvc.deleteEmployee(id);
-//    }
-//
-//    @PutMapping("/employees/{id}")
-//    public void updateEmployee(@PathVariable int id, @RequestBody LinkedHashMap<String, String> payload) {
-//        employeeSvc.updateEmployee(id, payload);
-//    }
+    @PostMapping("/employees")
+    public Employee postEmployee(@RequestBody Employee employee) {
+        System.out.println("\nEmployeeCtrller -> EmployeeSvc, POST /admin/employees to add new employee " + employee.getName());
+        return employeeSvc.addNewEmployee(employee);
+    }
 
+    @GetMapping("/employees/{id}")
+    public Optional<Employee> getEmployeeById(@PathVariable long id) {
+        return employeeSvc.getEmployeeById(id);
+    }
 
+    @PutMapping("/employees/{id}")
+    public Optional<Employee> updateEmployeeById(@PathVariable long id, @RequestBody Employee employee) {
+        return employeeSvc.updateEmployee(id, employee);
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public void deleteEmployee(@PathVariable long id) {
+        employeeSvc.deleteEmployee(id);
+    }
+    ////////////// end CRUD employees //////////////
 }
 
-
-//      RETIRING
-//    private EmployeeSvc employeeSvc;
-//
-//    @Autowired
-//    public AdminCtrller(EmployeeSvc employeeSvc) {
-//        this.employeeSvc = employeeSvc;
-//    }
