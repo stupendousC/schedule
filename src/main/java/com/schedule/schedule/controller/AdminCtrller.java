@@ -1,11 +1,7 @@
 package com.schedule.schedule.controller;
 
-import com.schedule.schedule.model.Admin;
-import com.schedule.schedule.model.Client;
-import com.schedule.schedule.model.Employee;
-import com.schedule.schedule.service.AdminSvc;
-import com.schedule.schedule.service.ClientSvc;
-import com.schedule.schedule.service.EmployeeSvc;
+import com.schedule.schedule.model.*;
+import com.schedule.schedule.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +21,10 @@ public class AdminCtrller {
     private EmployeeSvc employeeSvc;
     @Autowired
     private ClientSvc clientSvc;
+    @Autowired
+    private ShiftSvc shiftSvc;
+    @Autowired
+    private UnavailSvc unavailSvc;
 
     ////////////// CRUD admins //////////////
     @GetMapping("/admins")
@@ -109,5 +109,53 @@ public class AdminCtrller {
         clientSvc.deleteClient(id);
     }
     ////////////// end CRUD clients //////////////
-}
 
+    ////////////// CRUD shifts //////////////
+    @GetMapping("/shifts")
+    public List<Shift> getAllShifts() {
+        return shiftSvc.findAll();
+    }
+
+    @PostMapping("/shifts")
+    public Shift postShift(@RequestBody Shift shift) {
+        return shiftSvc.addNewShift(shift);
+    }
+
+    @GetMapping("/shifts/{id}")
+    public Optional<Shift> getShiftById(@PathVariable long id) {
+        return shiftSvc.getShiftById(id);
+    }
+
+    @PutMapping("/shifts/{id}")
+    public Optional<Shift> updateShiftById(@PathVariable long id, @RequestBody Shift shift) {
+        return shiftSvc.updateShift(id, shift);
+    }
+
+    @DeleteMapping("/shifts/{id}")
+    public void deleteShift(@PathVariable long id) {
+        shiftSvc.deleteShift(id);
+    }
+    ////////////// end CRUD shifts //////////////
+
+    ////////////// CRUD unavails //////////////
+    @GetMapping("/unavails")
+    public List<Unavail> getAllUnavails() {
+        return unavailSvc.findAll();
+    }
+
+    @PostMapping("/unavails")
+    public Unavail postUnavail(@RequestBody Unavail unavail) {
+        return unavailSvc.addNewUnavail(unavail);
+    }
+
+    @GetMapping("/unavails/{id}")
+    public Optional<Unavail> getUnavailById(@PathVariable long id) {
+        return unavailSvc.getUnavailById(id);
+    }
+
+    @DeleteMapping("/unavails/{id}")
+    public void deleteUnavail(@PathVariable long id) {
+        unavailSvc.deleteUnavail(id);
+    }
+    ////////////// end CRUD unavails //////////////
+}

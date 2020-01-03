@@ -1,8 +1,8 @@
 package com.schedule.schedule.dao;
 
-import com.schedule.schedule.model.Admin;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+        import com.schedule.schedule.model.Admin;
+        import org.springframework.data.repository.CrudRepository;
+        import org.springframework.stereotype.Repository;
 
 // Used to access data from database
 @Repository
