@@ -139,21 +139,23 @@ public class AdminCtrller {
 
     ////////////// CRUD unavails //////////////
     @GetMapping("/unavails")
-    public List<Unavail> getAllUnavails() { return unavailSvc.findAll(); }
-
-    @PostMapping("/unavails")
-    public Unavail postUnavail(@RequestBody Unavail unavail) { return unavailSvc.addNewUnavail(unavail);}
-
-    @GetMapping("/unavails/{id}")
-    public Optional<Unavail> getUnavailById(@PathVariable long id) { return unavailSvc.getUnavailById(id); }
-
-    @PutMapping("/unavails/{id}")
-    public Optional<Unavail> updateUnavailById(@PathVariable long id, @RequestBody Unavail unavail) {
-        return unavailSvc.updateUnavail(id, unavail);
+    public List<Unavail> getAllUnavails() {
+        return unavailSvc.findAll();
     }
 
-//    @DeleteMapping("/shifts/{id}")
-//    public void deleteUnavail(@PathVariable long id) { unavailSvc.deleteUnavail(id);}
+    @PostMapping("/unavails")
+    public Unavail postUnavail(@RequestBody Unavail unavail) {
+        return unavailSvc.addNewUnavail(unavail);
+    }
+
+    @GetMapping("/unavails/{id}")
+    public Optional<Unavail> getUnavailById(@PathVariable long id) {
+        return unavailSvc.getUnavailById(id);
+    }
+
+    @DeleteMapping("/unavails/{id}")
+    public void deleteUnavail(@PathVariable long id) {
+        unavailSvc.deleteUnavail(id);
+    }
     ////////////// end CRUD unavails //////////////
 }
-

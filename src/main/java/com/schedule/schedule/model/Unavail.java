@@ -21,7 +21,7 @@ public class Unavail {
 
     public Unavail() {}
 
-    // GETTERS & SETTERS
+    // GETTERS only
 
     public long getId() {
         return id;
@@ -31,15 +31,7 @@ public class Unavail {
         return employee_id;
     }
 
-    public void setEmployee_id(long employee_id) {
-        this.employee_id = employee_id;
-    }
-
     public LocalDate getDay_off() {
         return day_off;
-    }
-
-    public void setDay_off(LocalDate day_off) {
-        this.day_off = day_off;
     }
 }

@@ -26,14 +26,7 @@ public class UnavailSvc {
         return unavailRepository.findById(id);
     }
 
-    public Optional<Unavail> updateUnavail (long id, Unavail newInfoUnavail) {
-        Optional<Unavail> unavailMaybe = unavailRepository.findById(id);
-        unavailMaybe.ifPresent( entry -> {
-            entry.setDay_off(newInfoUnavail.getDay_off());
-            entry.setEmployee_id(newInfoUnavail.getEmployee_id());
-        });
-        return unavailMaybe;
-    }
+    // no PUT methods for Unavailabilities, because either a person is available (post) or not (delete)
 
     public void deleteUnavail(long id) {
         unavailRepository.deleteById(id);
