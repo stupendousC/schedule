@@ -16,16 +16,12 @@ public class EmployeeSvc {
     private EmployeeRepository employeeRepository;
 
     public List<Employee> findAll() {
-        System.out.println("EmployeeSvc -> EmployeeRepository, to return #" + employeeRepository.count() + " employees");
         return (List<Employee>) employeeRepository.findAll();
     }
 
     public Employee addNewEmployee(Employee employee) {
-        System.out.println("EmployeeSvc received new employee " + employee.getName());
         return employeeRepository.save(employee);
     }
-
-
 
     public Optional<Employee> getEmployeeById(long id) {
         return employeeRepository.findById(id);
