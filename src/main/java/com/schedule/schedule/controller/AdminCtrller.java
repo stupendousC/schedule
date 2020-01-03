@@ -1,14 +1,15 @@
 package com.schedule.schedule.controller;
 
 import com.schedule.schedule.model.Admin;
+import com.schedule.schedule.model.Client;
 import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.service.AdminSvc;
+import com.schedule.schedule.service.ClientSvc;
 import com.schedule.schedule.service.EmployeeSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,8 @@ public class AdminCtrller {
     private AdminSvc adminSvc;
     @Autowired
     private EmployeeSvc employeeSvc;
+    @Autowired
+    private ClientSvc clientSvc;
 
     ////////////// CRUD admins //////////////
     @GetMapping("/admins")
@@ -56,13 +59,11 @@ public class AdminCtrller {
     ////////////// CRUD employees //////////////
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
-        System.out.println("\nEmployeeCtrller -> EmployeeSvc, going to /admin/employees for a list of all Employee");
         return employeeSvc.findAll();
     }
 
     @PostMapping("/employees")
     public Employee postEmployee(@RequestBody Employee employee) {
-        System.out.println("\nEmployeeCtrller -> EmployeeSvc, POST /admin/employees to add new employee " + employee.getName());
         return employeeSvc.addNewEmployee(employee);
     }
 
@@ -81,5 +82,32 @@ public class AdminCtrller {
         employeeSvc.deleteEmployee(id);
     }
     ////////////// end CRUD employees //////////////
+
+    ////////////// CRUD clients //////////////
+    @GetMapping("/clients")
+    public List<Client> getAllClients() {
+        return clientSvc.findAll();
+    }
+
+    @PostMapping("/clients")
+    public Client postClient(@RequestBody Client client) {
+        return clientSvc.addNewClient(client);
+    }
+
+    @GetMapping("/clients/{id}")
+    public Optional<Client> getClientById(@PathVariable long id) {
+        return clientSvc.getClientById(id);
+    }
+
+    @PutMapping("/clients/{id}")
+    public Optional<Client> updateClientById(@PathVariable long id, @RequestBody Client client) {
+        return clientSvc.updateClient(id, client);
+    }
+
+    @DeleteMapping("/clients/{id}")
+    public void deleteClient(@PathVariable long id) {
+        clientSvc.deleteClient(id);
+    }
+    ////////////// end CRUD clients //////////////
 }
 
