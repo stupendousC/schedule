@@ -1,14 +1,14 @@
 package com.schedule.schedule.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table (name = "employees")
 public class Employee {
     @Id
-    private int id;
+    @SequenceGenerator(name="employees_id_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="employees_id_seq")
+    private long id;
     private String oauthid;
     private String name;
     private String address;
@@ -60,7 +60,7 @@ public class Employee {
         this.email = email;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

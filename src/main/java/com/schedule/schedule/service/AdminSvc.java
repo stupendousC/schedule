@@ -22,9 +22,8 @@ public class AdminSvc {
 
 
     public Admin addNewAdmin(Admin admin) {
-        System.out.println("AdminSvc -> AdminDao, received new admin " + admin.getName());
-        Admin newAdmin = adminRepository.save(admin);
-        return newAdmin ;
+        System.out.println("AdminSvc received new admin " + admin.getName());
+        return adminRepository.save(admin);
     }
 
     public Optional<Admin> getAdminById(long id) {

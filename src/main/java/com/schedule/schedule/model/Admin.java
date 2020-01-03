@@ -9,15 +9,15 @@ public class Admin {
     @SequenceGenerator(name="admin_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="admin_id_seq")
     private long id;
-
+    private String oauthid;
     private String name;
     private String phone;
     private String email;
     private String address;
 
-    public Admin(long id, String name, String phone, String email, String address) {
+    public Admin(String oauthid, String name, String phone, String email, String address) {
         // used when receiving data from user input, to save to the admin table in postgres
-        this.id = id;
+        this.oauthid = oauthid;
         this.name = name;
         this.phone = phone;
         this.email = email;

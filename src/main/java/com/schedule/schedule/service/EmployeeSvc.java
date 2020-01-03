@@ -20,32 +20,34 @@ public class EmployeeSvc {
         return (List<Employee>) employeeRepository.findAll();
     }
 
+    public Employee addNewEmployee(Employee employee) {
+        System.out.println("EmployeeSvc received new employee " + employee.getName());
+        return employeeRepository.save(employee);
+    }
 
-//    private EmployeeDao employeeDao;
-//
-//    @Autowired
-//    public EmployeeSvc(@Qualifier("employees") EmployeeDao employeeDao) {
-//        this.employeeDao = employeeDao;
-//    }
-//
-//    public List<Employee> getAllEmployees() {
-//        return employeeDao.getAllEmployees();
-//    }
-//
-//    public Optional<Employee> getEmployeeById(int id) {
-//        return employeeDao.getEmployeeById(id);
-//    }
-//
-//    public void addNewEmployee(LinkedHashMap name_addy_cell_email) {
-//        employeeDao.addNewEmployee(name_addy_cell_email);
-//    }
-//
-//    public void deleteEmployee(int id) {
-//        employeeDao.deleteEmployee(id);
-//    }
-//
-//    public void updateEmployee(int id, LinkedHashMap name_addy_cell_email) {
-//        employeeDao.updateEmployee(id, name_addy_cell_email);
-//    }
+
+
+    public Optional<Employee> getEmployeeById(long id) {
+        return employeeRepository.findById(id);
+    }
+
+    public Optional<Employee> updateEmployee(long id, Employee newInfoEmployee) {
+        Optional<Employee> employeeMaybe = employeeRepository.findById(id);
+
+        employeeMaybe.ifPresent( user -> {
+            user.setAddress(newInfoEmployee.getAddress());
+            user.setEmail(newInfoEmployee.getEmail());
+            user.setName(newInfoEmployee.getName());
+            user.setPhone(newInfoEmployee.getPhone());
+            employeeRepository.save(user);
+        });
+
+        return employeeMaybe;
+    }
+
+    public void deleteEmployee(long id) {
+        employeeRepository.deleteById(id);
+    }
+
 }
 
