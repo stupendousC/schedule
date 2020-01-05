@@ -19,12 +19,13 @@ public class AdminSvc extends Person {
     private AdminRepository adminRepository;
 
     public List<Admin> findAllActives() {
-        System.out.println("\nAdminSvc -> AdminRepository, to return #" + adminRepository.count() + "admin people");
+        System.out.println("\nAdminSvc -> AdminRepository, which has #" + adminRepository.count() + "admin people total, both active & not");
 
         Iterable<Admin> allAdmin = adminRepository.findAll();
         List<Admin> allAdminList = (List<Admin>) allAdmin;
+
         List<Admin> allActives = allAdminList.stream()
-                .filter( curr -> curr.getActive() )
+                .filter(Admin::getActive)
                 .collect(Collectors.toList());
 
         return allActives;
@@ -48,6 +49,7 @@ public class AdminSvc extends Person {
             user.setEmail(newInfoAdmin.getEmail());
             user.setName(newInfoAdmin.getName());
             user.setPhone(newInfoAdmin.getPhone());
+            user.setActive(newInfoAdmin.getActive());
             adminRepository.save(user);
         });
 
@@ -56,6 +58,12 @@ public class AdminSvc extends Person {
 
     public void deleteAdmin(long id) {
 //        adminRepository.deleteById(id);
+        Optional<Admin> departingAdmin = adminRepository.findById(id);
+        departingAdmin.ifPresent( user -> {
+            user.setActive(false);
+            adminRepository.save(user);
+        });
+
     }
 }
 
