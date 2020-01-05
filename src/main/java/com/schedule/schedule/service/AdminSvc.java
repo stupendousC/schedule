@@ -57,13 +57,11 @@ public class AdminSvc extends Person {
     }
 
     public void deleteAdmin(long id) {
-//        adminRepository.deleteById(id);
-        Optional<Admin> departingAdmin = adminRepository.findById(id);
-        departingAdmin.ifPresent( user -> {
-            user.setActive(false);
-            adminRepository.save(user);
+        Optional<Admin> departingPerson = adminRepository.findById(id);
+        departingPerson.ifPresent( person -> {
+            person.setActive(false);
+            adminRepository.save(person);
         });
-
     }
 }
 

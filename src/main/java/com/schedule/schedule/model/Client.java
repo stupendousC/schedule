@@ -13,12 +13,14 @@ public class Client {
     private String phone;
     private String email;
     private String address;
+    private Boolean active;
 
-    public Client(String name, String phone, String email, String address) {
+    public Client(String name, String phone, String email, String address, Boolean active) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.active = active;
     }
 
     public Client() {
@@ -28,6 +30,14 @@ public class Client {
 
     public long getId() {
         return id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getName() {

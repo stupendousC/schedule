@@ -1,11 +1,13 @@
 package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.EmployeeRepository;
+import com.schedule.schedule.model.Admin;
 import com.schedule.schedule.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -15,8 +17,16 @@ public class EmployeeSvc {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public List<Employee> findAll() {
-        return (List<Employee>) employeeRepository.findAll();
+    public List<Employee> findAllActives() {
+
+        Iterable<Employee> allEmployee = employeeRepository.findAll();
+        List<Employee> allEmployeeList = (List<Employee>) allEmployee;
+
+        List<Employee> allActives = allEmployeeList.stream()
+                .filter(Employee::getActive)
+                .collect(Collectors.toList());
+
+        return allActives;
     }
 
     public Employee addNewEmployee(Employee employee) {
@@ -35,6 +45,7 @@ public class EmployeeSvc {
             user.setEmail(newInfoEmployee.getEmail());
             user.setName(newInfoEmployee.getName());
             user.setPhone(newInfoEmployee.getPhone());
+            user.setActive(newInfoEmployee.getActive());
             employeeRepository.save(user);
         });
 
@@ -42,8 +53,11 @@ public class EmployeeSvc {
     }
 
     public void deleteEmployee(long id) {
-        employeeRepository.deleteById(id);
+        Optional<Employee> departingPerson = employeeRepository.findById(id);
+        departingPerson.ifPresent( person -> {
+            person.setActive(false);
+            employeeRepository.save(person);
+        });
     }
-
 }
 

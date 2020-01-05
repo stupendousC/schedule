@@ -29,7 +29,7 @@ public class AdminCtrller {
     ////////////// CRUD admins //////////////
     @GetMapping("/admins")
     public List<Admin> getAllAdmins(Model admin) {
-        System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all admin personnel");
+        System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all ACTIVE admin personnel");
         return adminSvc.findAllActives();
     }
 
@@ -50,6 +50,7 @@ public class AdminCtrller {
     }
 
     @DeleteMapping("/admins/{id}")
+    // does NOT actually delete person from table, instead it switches active column from true to false
     public void deleteAdmin(@PathVariable long id) {
         adminSvc.deleteAdmin(id);
     }
@@ -59,7 +60,7 @@ public class AdminCtrller {
     ////////////// CRUD employees //////////////
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
-        return employeeSvc.findAll();
+        return employeeSvc.findAllActives();
     }
 
     @PostMapping("/employees")
@@ -78,6 +79,7 @@ public class AdminCtrller {
     }
 
     @DeleteMapping("/employees/{id}")
+    // does NOT actually delete person from table, instead it switches active column from true to false
     public void deleteEmployee(@PathVariable long id) {
         employeeSvc.deleteEmployee(id);
     }
@@ -86,7 +88,7 @@ public class AdminCtrller {
     ////////////// CRUD clients //////////////
     @GetMapping("/clients")
     public List<Client> getAllClients() {
-        return clientSvc.findAll();
+        return clientSvc.findAllActives();
     }
 
     @PostMapping("/clients")
@@ -105,6 +107,7 @@ public class AdminCtrller {
     }
 
     @DeleteMapping("/clients/{id}")
+    // does NOT actually delete person from table, instead it switches active column from true to false
     public void deleteClient(@PathVariable long id) {
         clientSvc.deleteClient(id);
     }

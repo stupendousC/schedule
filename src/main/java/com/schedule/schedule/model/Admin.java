@@ -2,12 +2,12 @@ package com.schedule.schedule.model;
 import javax.persistence.*;
 
 @Entity         // Admin class is an entity and is mapped to a database table
-@Table(name = "admin")  // only necessary if table name is not the same as class name, case matters!
+@Table(name = "admins")  // only necessary if table name is not the same as class name, case matters!
 public class Admin {
     @Id     // specifies the PK of an entity
     @Column(name = "id")       // redundant line bc dbObj.colName = javaObj.attribName
-    @SequenceGenerator(name="admin_id_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="admin_id_seq")
+    @SequenceGenerator(name="admins_id_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="admins_id_seq")
     private long id;
     private String oauthid;
     private String name;
@@ -16,13 +16,14 @@ public class Admin {
     private String address;
     private Boolean active;
 
-    public Admin(String oauthid, String name, String phone, String email, String address) {
-        // used when receiving data from user input, to save to the admin table in postgres
+    public Admin(String oauthid, String name, String phone, String email, String address, Boolean active) {
+        // used when receiving data from user input, to save to the admins table in postgres
         this.oauthid = oauthid;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.active = active;
     }
 
     public Admin() {
