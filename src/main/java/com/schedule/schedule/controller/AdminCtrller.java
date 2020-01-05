@@ -30,7 +30,7 @@ public class AdminCtrller {
     @GetMapping("/admins")
     public List<Admin> getAllAdmins(Model admin) {
         System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all admin personnel");
-        return adminSvc.findAll();
+        return adminSvc.findAllActives();
     }
 
     @PostMapping("/admins")

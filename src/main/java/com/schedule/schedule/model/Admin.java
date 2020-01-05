@@ -14,6 +14,7 @@ public class Admin {
     private String phone;
     private String email;
     private String address;
+    private Boolean active;
 
     public Admin(String oauthid, String name, String phone, String email, String address) {
         // used when receiving data from user input, to save to the admin table in postgres
@@ -32,6 +33,27 @@ public class Admin {
 
 
     // GETTERS & SETTERS
+
+    public long getId() {
+        return id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getOauthid() {
+        return oauthid;
+    }
+
+    public void setOauthid(String oauthid) {
+        this.oauthid = oauthid;
+    }
+
     public String getName() {
         return name;
     }

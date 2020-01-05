@@ -23,8 +23,6 @@ public class ClientSvc {
         return clientRepository.save(client);
     }
 
-
-
     public Optional<Client> getClientById(long id) {
         return clientRepository.findById(id);
     }

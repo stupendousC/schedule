@@ -2,22 +2,32 @@ package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.AdminRepository;
 import com.schedule.schedule.model.Admin;
+import com.schedule.schedule.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class AdminSvc {
+public class AdminSvc extends Person {
 
     @Autowired
     // retrieve data from db via AdminRepo
     private AdminRepository adminRepository;
 
-    public List<Admin> findAll() {
+    public List<Admin> findAllActives() {
         System.out.println("\nAdminSvc -> AdminRepository, to return #" + adminRepository.count() + "admin people");
-       return (List<Admin>) adminRepository.findAll();
+
+        Iterable<Admin> allAdmin = adminRepository.findAll();
+        List<Admin> allAdminList = (List<Admin>) allAdmin;
+        List<Admin> allActives = allAdminList.stream()
+                .filter( curr -> curr.getActive() )
+                .collect(Collectors.toList());
+
+        return allActives;
     }
 
 
@@ -45,7 +55,7 @@ public class AdminSvc {
     }
 
     public void deleteAdmin(long id) {
-        adminRepository.deleteById(id);
+//        adminRepository.deleteById(id);
     }
 }
 
