@@ -14,13 +14,15 @@ public class Employee {
     private String address;
     private String phone;
     private String email;
+    private Boolean active;
 
-    public Employee(String oauthid, String name, String address, String phone, String email) {
+    public Employee(String oauthid, String name, String address, String phone, String email, Boolean active) {
         this.oauthid = oauthid;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.email = email;
+        this.active = active;
     }
 
     public Employee() {}
@@ -28,6 +30,14 @@ public class Employee {
 
 
     // GETTER & SETTERS
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
     public String getName() {
         return name;
     }
