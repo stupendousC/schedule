@@ -17,6 +17,19 @@ public class EmployeeSvc {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    public Optional<Employee> findByGoogleId(String googleId) {
+        List<Employee> allActives = findAllActives();
+
+        for (Employee person : allActives) {
+            System.out.println("looking at " + person.getName());
+            if (person.getOauthid().equals(googleId)) {
+                System.out.println("FOUND!");
+                return Optional.of(person);
+            }
+        }
+        return Optional.empty();
+    }
+
     public List<Employee> findAllActives() {
 
         Iterable<Employee> allEmployee = employeeRepository.findAll();
