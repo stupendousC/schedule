@@ -29,18 +29,21 @@ public class LoginCtrller {
 
         HashMap<String, Object> responseData = new HashMap<>();
 
-        // search admin table for matching googleId
-        System.out.println("AdminSvc will query db to find matches");
-
+        // search admins table for matching googleId
         Optional<Admin> maybeAdmin = adminSvc.findByGoogleId(googleId);
         if (maybeAdmin.isPresent()) {
-            System.out.println("FOUND: " + maybeAdmin.get());
             responseData.put("ADMIN", maybeAdmin.get());
-        } else {
-            System.out.println("EmployeeSvc will query db to find matches");
-            Optional<Employee> maybeEmployee = employeeSvc.findByGoogleId(googleId);
-            responseData.put("EMPLOYEE", maybeEmployee.get());
+            return responseData;
         }
+
+        // search employees table for matching googleId
+        Optional<Employee> maybeEmployee = employeeSvc.findByGoogleId(googleId);
+        if (maybeEmployee.isPresent()) {
+            responseData.put("EMPLOYEE", maybeEmployee.get());
+            return responseData;
+        }
+
+        // googleId does not match anyone in db
         return responseData;
     }
 }

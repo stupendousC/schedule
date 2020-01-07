@@ -22,7 +22,7 @@ public class AdminSvc extends Person {
         List<Admin> allActives = findAllActives();
 
         for (Admin person : allActives) {
-            System.out.println("looking at " + person.getName());
+            System.out.println("looking at admin: " + person.getName());
             if (person.getOauthid().equals(googleId)) {
                 System.out.println("FOUND!");
                 return Optional.of(person);

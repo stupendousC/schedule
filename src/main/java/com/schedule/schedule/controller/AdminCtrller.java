@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,9 @@ public class AdminCtrller {
     @GetMapping("/admins")
     public List<Admin> getAllAdmins(Model admin) {
         System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all ACTIVE admin personnel");
+
+//        System.out.println("RECEIVED PATH VARIABLES: googleId = " + googleId + " ROLE = " + authenticatedRole);
+
         return adminSvc.findAllActives();
     }
 
@@ -137,6 +141,13 @@ public class AdminCtrller {
     @DeleteMapping("/shifts/{id}")
     public void deleteShift(@PathVariable long id) {
         shiftSvc.deleteShift(id);
+    }
+
+    @GetMapping("/shifts/availableEmployees/{date}")
+    public String getAvailEmployees(@PathVariable Date date) {
+        System.out.println("AdminCTRLLER received " + date);
+
+        return "WORKIGN ON IT!!!";
     }
     ////////////// end CRUD shifts //////////////
 

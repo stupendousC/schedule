@@ -21,9 +21,9 @@ public class EmployeeSvc {
         List<Employee> allActives = findAllActives();
 
         for (Employee person : allActives) {
-            System.out.println("looking at " + person.getName());
+            System.out.println("looking at employee:" + person.getName());
             if (person.getOauthid().equals(googleId)) {
-                System.out.println("FOUND!");
+                System.out.println("FOUND! returning ... " + Optional.of(person));
                 return Optional.of(person);
             }
         }
