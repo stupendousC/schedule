@@ -18,6 +18,19 @@ public class AdminSvc extends Person {
     // retrieve data from db via AdminRepo
     private AdminRepository adminRepository;
 
+    public Optional<Admin> findByGoogleId(String googleId) {
+        List<Admin> allActives = findAllActives();
+
+        for (Admin person : allActives) {
+            System.out.println("looking at admin: " + person.getName());
+            if (person.getOauthid().equals(googleId)) {
+                System.out.println("FOUND!");
+                return Optional.of(person);
+            }
+        }
+        return Optional.empty();
+    }
+
     public List<Admin> findAllActives() {
         System.out.println("\nAdminSvc -> AdminRepository, which has #" + adminRepository.count() + "admin people total, both active & not");
 
