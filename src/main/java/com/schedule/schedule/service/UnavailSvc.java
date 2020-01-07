@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UnavailSvc {
@@ -25,6 +26,21 @@ public class UnavailSvc {
 
     public Optional<Unavail> getUnavailById(long id) {
         return unavailRepository.findById(id);
+    }
+
+    public Optional<List<Unavail>> getUnavailsByEmpId(long id) {
+        List<Unavail> allUnavails = findAll();
+        List<Unavail> unavailsOfEmp = allUnavails.stream()
+                .filter(unavail -> {
+                    System.out.println("Looking at unavail#" + unavail.getId());
+                    System.out.println("matches our employee? " + (unavail.getEmployee_id() == id));
+                    return unavail.getEmployee_id() == id;
+                })
+                .collect(Collectors.toList());
+
+
+        return Optional.of(unavailsOfEmp);
+
     }
 
     // no PUT methods for Unavailabilities, because either a person is available (post) or not (delete)
