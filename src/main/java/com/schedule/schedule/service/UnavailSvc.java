@@ -45,15 +45,5 @@ public class UnavailSvc {
     }
 
 
-
-
-    // TOGGLE between addNewUnavail vs deleteUnavail, depending on whether or not a new Unavail is already in the system
-    public void toggleUnavail(Unavail unavail) {
-        // using info from Front end, based on which calendar day user clicked on
-
-        // search DB for the row that matches both 1. user id, and 2. calendar day
-            // if found -> use deleteUnavail(row id)
-            // else -> addNewUnavail(Unavail unavail)
-    }
 }
 
