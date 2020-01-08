@@ -16,6 +16,9 @@ public class Employee {
     private String email;
     private Boolean active;
 
+//    @OneToMany
+//    private Unavail unavail;
+
     public Employee(String oauthid, String name, String address, String phone, String email, Boolean active) {
         this.oauthid = oauthid;
         this.name = name;

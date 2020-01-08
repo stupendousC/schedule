@@ -67,6 +67,9 @@ public class AdminSvc extends Person {
         });
 
         return adminMaybe;
+
+        // Another method ... adminRepository.save(newInfoAdmin);
+        // supposedly Spring knows that to update the table row instead of insert new row b/c there's an id in the args, not just newInfoAdmin
     }
 
     public void deleteAdmin(long id) {

@@ -14,6 +14,10 @@ public class Unavail {
     private long employee_id;
     private LocalDate day_off;
 
+//    @ManyToOne
+//    private Employee employee;
+
+
     public Unavail(long employee_id, LocalDate day_off) {
         this.employee_id = employee_id;
         this.day_off = day_off;
