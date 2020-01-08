@@ -1,6 +1,7 @@
 package com.schedule.schedule.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table (name = "employees")
@@ -16,8 +17,19 @@ public class Employee {
     private String email;
     private Boolean active;
 
-//    @OneToMany
-//    private Unavail unavail;
+
+    /////// TEST
+//    @OneToMany (mappedBy="employee")
+//    private Set<Unavail> unavails;
+//
+//
+//    // from @OneToMany (employee -> unavails)
+//    public Set<Unavail> getUnavails() {
+//        return unavails;
+//    }
+    /////// TEST
+
+
 
     public Employee(String oauthid, String name, String address, String phone, String email, Boolean active) {
         this.oauthid = oauthid;
@@ -84,6 +96,7 @@ public class Employee {
     public void setOauthid(String oauthid) {
         this.oauthid = oauthid;
     }
+
 }
 
 
