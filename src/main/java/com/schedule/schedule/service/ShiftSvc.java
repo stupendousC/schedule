@@ -32,7 +32,7 @@ public class ShiftSvc {
     public Optional<List<Shift>> getShiftByEmpId(long id) {
         List<Shift> allShifts = findAll();
         List<Shift> empShifts = allShifts.stream()
-                .filter(shift -> (id == shift.getEmployee_id()))
+                .filter(shift -> (id == shift.getEmployee().getId()))
                 .collect(Collectors.toList());
 
         return Optional.of(empShifts);
@@ -42,8 +42,11 @@ public class ShiftSvc {
         Optional<Shift> shiftMaybe = shiftRepository.findById(id);
 
         shiftMaybe.ifPresent( shift -> {
-            shift.setClient_id(newInfoShift.getClient_id());
-            shift.setEmployee_id(newInfoShift.getEmployee_id());
+            // following 2 lines replaced b/c of ORM
+//            shift.setClient_id(newInfoShift.getClient_id());
+//            shift.setEmployee_id(newInfoShift.getEmployee_id());
+            shift.setClient(newInfoShift.getClient());
+            shift.setEmployee(newInfoShift.getEmployee());
             shift.setShift_date(newInfoShift.getShift_date());
             shift.setStart_time(newInfoShift.getStart_time());
             shift.setEnd_time(newInfoShift.getEnd_time());
