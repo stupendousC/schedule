@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/employees")
 //@CrossOrigin(origins = {"http://domain2.com", "url2", etc})
@@ -22,21 +21,19 @@ public class EmployeeCtrller {
     @Autowired
     private UnavailSvc unavailSvc;
 
-    ////////////// CRUD employees //////////////
+    // Not all CRUD actions are available to Employee due to business needs
 
+    ////////////// CRUD employees //////////////
     @GetMapping("/{id}")
     public Optional<Employee> getEmployeeById(@PathVariable long id) {
-        System.out.println("finding employee id="+id);
         return employeeSvc.getEmployeeById(id);
     }
+
     @PutMapping("/{id}")
     public Optional<Employee> updateEmployeeById(@PathVariable long id, @RequestBody Employee employee) {
         System.out.println("updating employee id="+id);
         return employeeSvc.updateEmployee(id, employee);
     }
-
-    ////////////// end CRUD employees //////////////
-
 
     ////////////// CRUD unavails //////////////
     @GetMapping("/{id}/unavails")
@@ -44,15 +41,21 @@ public class EmployeeCtrller {
         return unavailSvc.getUnavailsByEmpId(id);
     }
 
-
-
-    @PostMapping("/unavails")
+    @PostMapping("/{id}/unavails")
     public Unavail postUnavail(@RequestBody Unavail unavail) {
         return unavailSvc.addNewUnavail(unavail);
     }
-    @DeleteMapping("/unavails/{id}")
-    public void deleteUnavail(@PathVariable long id) {
-        unavailSvc.deleteUnavail(id);
+    @DeleteMapping("/{id}/unavails/{availId}")
+    public Optional<List<Unavail>> deleteUnavail(@PathVariable long id, @PathVariable long availId) {
+        unavailSvc.deleteUnavail(availId);
+        // also return the most current version employee's unavail rows
+        return unavailSvc.getUnavailsByEmpId(id);
     }
-    ////////////// end CRUD unavails //////////////
+
+    ////////////// CRUD shifts //////////////
+    @GetMapping("/{id}/shifts")
+    public Optional<List<Shift>> getAllShifts(@PathVariable long id) {
+        return shiftSvc.getShiftByEmpId(id);
+    }
+
 }

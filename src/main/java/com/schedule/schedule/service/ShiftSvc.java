@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class ShiftSvc {
@@ -25,6 +27,15 @@ public class ShiftSvc {
 
     public Optional<Shift> getShiftById(long id) {
         return shiftRepository.findById(id);
+    }
+
+    public Optional<List<Shift>> getShiftByEmpId(long id) {
+        List<Shift> allShifts = findAll();
+        List<Shift> empShifts = allShifts.stream()
+                .filter(shift -> (id == shift.getEmployee_id()))
+                .collect(Collectors.toList());
+
+        return Optional.of(empShifts);
     }
 
     public Optional<Shift> updateShift(long id, Shift newInfoShift) {

@@ -31,13 +31,8 @@ public class UnavailSvc {
     public Optional<List<Unavail>> getUnavailsByEmpId(long id) {
         List<Unavail> allUnavails = findAll();
         List<Unavail> unavailsOfEmp = allUnavails.stream()
-                .filter(unavail -> {
-                    System.out.println("Looking at unavail#" + unavail.getId());
-                    System.out.println("matches our employee? " + (unavail.getEmployee_id() == id));
-                    return unavail.getEmployee_id() == id;
-                })
+                .filter(unavail -> { return unavail.getEmployee_id() == id; })
                 .collect(Collectors.toList());
-
 
         return Optional.of(unavailsOfEmp);
 
