@@ -25,22 +25,22 @@ public class Unavail {
         this.day_off = day_off;
     }
 
-
     public Unavail() {}
 
-    //////////////////////// TEST JPA
-    public long getEmployee_id() {
-        return this.employee.getId();
+
+
+
+    // GETTERS only
+    public long getId() {
+        return id;
     }
+
     public Employee getEmployee() {
         return employee;
     }
 
-
-    // GETTERS only
-
-    public long getId() {
-        return id;
+    public long getEmployee_id() {
+        return this.employee.getId();
     }
 
     public LocalDate getDay_off() {
