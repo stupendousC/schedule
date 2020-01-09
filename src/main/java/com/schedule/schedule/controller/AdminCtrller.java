@@ -144,13 +144,33 @@ public class AdminCtrller {
         shiftSvc.deleteShift(id);
     }
 
-    @GetMapping("/shifts/availableEmployees/{date}")
-    public String getAvailEmployees(@PathVariable Date date) {
-        System.out.println("AdminCTRLLER received " + date);
+
+
+
+
+
+
+
+    ////////////// FIND!!!
+    @GetMapping("/shifts/availableEmployees/{shiftId}")
+    public String getAvailEmployees(@PathVariable long shiftId) {
+        System.out.println("AdminCTRLLER rec'd request for available Emps for shift obj id#" + shiftId);
+
+        // find the shift obj based on id
+
+        // now we know the shift date, find who's 1. not in Unavails for that day AND 2. not in shifts for that day
 
         return "WORKIGN ON IT!!!";
     }
     ////////////// end CRUD shifts //////////////
+
+
+
+
+
+
+
+
 
     ////////////// CRUD unavails //////////////
     @GetMapping("/unavails")
@@ -158,6 +178,7 @@ public class AdminCtrller {
         return unavailSvc.findAll();
     }
 
+    // Admin would need to specify which employee first
 //    @PostMapping("/unavails")
 //    public Unavail postUnavail(@RequestBody Unavail unavail) {
 //        return unavailSvc.addNewUnavail(unavail);
