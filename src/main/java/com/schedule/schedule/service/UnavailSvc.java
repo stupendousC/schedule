@@ -1,10 +1,13 @@
 package com.schedule.schedule.service;
 
+import com.schedule.schedule.dao.EmployeeRepository;
 import com.schedule.schedule.dao.UnavailRepository;
+import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Unavail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,12 +17,23 @@ public class UnavailSvc {
 
     @Autowired
     private UnavailRepository unavailRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public List<Unavail> findAll() {
         return (List<Unavail>) unavailRepository.findAll();
     }
 
-    public Unavail addNewUnavail(Unavail unavail) {
+    // ATTEMPTING TO FIX...
+    public Unavail addNewUnavail(long employee_id, Unavail unavail) {
+        System.out.println("SVC sees u want to add... day_off" + unavail.getDay_off() + " for emp #" + employee_id);
+
+        // EmployeeCtrller sent arg unavail obj with only the date loaded from front-end
+        // need to set add employee obj onto it
+        Optional<Employee> foundEmployee = employeeRepository.findById(employee_id);
+        if (foundEmployee.isPresent()) {
+            unavail.setEmployee(foundEmployee.get());
+        }
 
         return unavailRepository.save(unavail);
     }

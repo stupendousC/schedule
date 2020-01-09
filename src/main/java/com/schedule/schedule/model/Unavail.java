@@ -30,9 +30,17 @@ public class Unavail {
 
 
 
-    // GETTERS only
+    // GETTERS & SETTERS
     public long getId() {
         return id;
+    }
+
+    public void setDay_off(LocalDate day_off) {
+        this.day_off = day_off;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public Employee getEmployee() {

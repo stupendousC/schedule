@@ -5,6 +5,7 @@ import com.schedule.schedule.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +42,25 @@ public class EmployeeCtrller {
         return unavailSvc.getUnavailsByEmpId(id);
     }
 
+
+
+
+
+    // FIX IN PROGRESS... post needs to see day_off and employee obj in requestBody
     @PostMapping("/{id}/unavails")
-    public Unavail postUnavail(@RequestBody Unavail unavail) {
-        return unavailSvc.addNewUnavail(unavail);
+    public Unavail postUnavail(@PathVariable long id, @RequestBody Unavail unavail) {
+        System.out.println("CTRL sees u wanting to add... " + unavail.getDay_off() + " for emp #" + id );
+        return unavailSvc.addNewUnavail(id, unavail);
     }
+
+
+
+
+
+
+
+
+
     @DeleteMapping("/{id}/unavails/{availId}")
     public Optional<List<Unavail>> deleteUnavail(@PathVariable long id, @PathVariable long availId) {
         unavailSvc.deleteUnavail(availId);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -157,10 +158,10 @@ public class AdminCtrller {
         return unavailSvc.findAll();
     }
 
-    @PostMapping("/unavails")
-    public Unavail postUnavail(@RequestBody Unavail unavail) {
-        return unavailSvc.addNewUnavail(unavail);
-    }
+//    @PostMapping("/unavails")
+//    public Unavail postUnavail(@RequestBody Unavail unavail) {
+//        return unavailSvc.addNewUnavail(unavail);
+//    }
 
     @GetMapping("/unavails/{id}")
     public Optional<Unavail> getUnavailById(@PathVariable long id) {
