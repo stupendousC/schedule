@@ -5,9 +5,10 @@ import com.schedule.schedule.model.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +21,33 @@ public class ShiftSvc {
         return (List<Shift>) shiftRepository.findAll();
     }
 
+    public Optional<List<Shift>> findAllStaffedShifts() {
+        List<Shift> allShifts = findAll();
+        if (allShifts.size() == 0) return Optional.empty();
+
+        List<Shift> staffedShiftsList = new ArrayList<>();
+        for (Shift shift : allShifts) {
+            if ((shift.getEmployee() != null)) {
+                staffedShiftsList.add(shift);
+            }
+        }
+
+        return Optional.of(staffedShiftsList);
+    }
+
+    public Optional<List<Shift>> findAllStaffedShiftsOnDate( LocalDate date) {
+        Optional<List<Shift>> allStaffedShiftsOptional = findAllStaffedShifts();
+        if (allStaffedShiftsOptional.isEmpty()) { return Optional.empty(); }
+
+        List<Shift> allStaffedShifts = allStaffedShiftsOptional.get();
+        List<Shift> allStaffedShiftsOnDate = allStaffedShifts.stream()
+                .filter(shift -> (shift.getShift_date().equals(date)))
+                .collect(Collectors.toList());
+
+        return Optional.of(allStaffedShiftsOnDate);
+    }
+
+    public Optional<Shift> findById(long id) { return shiftRepository.findById(id); }
 
     public Shift addNewShift(Shift shift) {
         return shiftRepository.save(shift);
@@ -29,10 +57,23 @@ public class ShiftSvc {
         return shiftRepository.findById(id);
     }
 
+
+
+
+
+
+
+    ///////// this is all messed up
     public Optional<List<Shift>> getShiftByEmpId(long id) {
         List<Shift> allShifts = findAll();
+
+        if (allShifts.size() == 0) { return Optional.empty(); }
+
         List<Shift> empShifts = allShifts.stream()
-                .filter(shift -> (id == shift.getEmployee().getId()))
+                .filter(shift -> {
+                    System.out.println("\tdoes this shift belong to this emp?" + (id==shift.getEmployee().getId()));
+                    return (id == shift.getEmployee().getId());
+                })
                 .collect(Collectors.toList());
 
         return Optional.of(empShifts);

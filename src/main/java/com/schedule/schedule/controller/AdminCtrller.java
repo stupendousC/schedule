@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -151,17 +152,15 @@ public class AdminCtrller {
 
 
 
-    ////////////// FIND!!!
+    ////////////// FIND!!!//////////////////////////////////////////////////////////////////////
     @GetMapping("/shifts/availableEmployees/{shiftId}")
-    public String getAvailEmployees(@PathVariable long shiftId) {
+    public List<Employee> getAvailEmployees(@PathVariable long shiftId) {
         System.out.println("AdminCTRLLER rec'd request for available Emps for shift obj id#" + shiftId);
-
-        // find the shift obj based on id
-
-        // now we know the shift date, find who's 1. not in Unavails for that day AND 2. not in shifts for that day
-
-        return "WORKIGN ON IT!!!";
+        return employeeSvc.getAvailEmployees(shiftId);
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     ////////////// end CRUD shifts //////////////
 
 
