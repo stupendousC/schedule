@@ -68,7 +68,8 @@ public class EmployeeCtrller {
 
     @GetMapping("/{id}/unstaffedShifts")
     public Optional<List<Shift>> getAllUnstaffedShifts(@PathVariable long id) {
-        return shiftSvc.findAllUnstaffedShifts();
+        // employee does NOT need to know about unstaffedShifts in the past
+        return shiftSvc.findAllUnexpiredUnstaffedShifts();
     }
 
 }

@@ -5,6 +5,7 @@ import com.schedule.schedule.model.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,21 @@ public class ShiftSvc {
         }
 
         return Optional.of(unstaffedShiftsList);
+    }
+
+    public Optional<List<Shift>> findAllUnexpiredUnstaffedShifts() {
+        List<Shift> allShifts = findAll();
+        if (allShifts.size() == 0) return Optional.empty();
+
+        LocalDate today = LocalDate.now(Clock.systemDefaultZone());
+        List<Shift> unexpiredUnstaffedShiftsList = new ArrayList<>();
+        for (Shift shift : allShifts) {
+            if ((shift.getEmployee() == null) && (shift.getShift_date().isAfter(today) )) {
+                unexpiredUnstaffedShiftsList.add(shift);
+            }
+        }
+
+        return Optional.of(unexpiredUnstaffedShiftsList);
     }
 
     public Optional<List<Shift>> findAllStaffedShifts() {
