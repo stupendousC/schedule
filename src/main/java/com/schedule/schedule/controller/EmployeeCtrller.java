@@ -5,6 +5,7 @@ import com.schedule.schedule.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +43,16 @@ public class EmployeeCtrller {
     }
 
     @PostMapping("/{id}/unavails")
-    public Unavail postUnavail(@RequestBody Unavail unavail) {
-        return unavailSvc.addNewUnavail(unavail);
+    public Unavail postUnavail(@PathVariable long id, @RequestBody Unavail unavail) {
+        System.out.println("CTRL sees u wanting to add... " + unavail.getDay_off() + " for emp #" + id );
+
+        Optional<Employee> employeeMaybe = getEmployeeById(id);
+        if (employeeMaybe.isPresent()) {
+            unavail.setEmployee(employeeMaybe.get());
+            return unavailSvc.addNewUnavail(unavail);
+        } else return new Unavail();
     }
+
     @DeleteMapping("/{id}/unavails/{availId}")
     public Optional<List<Unavail>> deleteUnavail(@PathVariable long id, @PathVariable long availId) {
         unavailSvc.deleteUnavail(availId);
@@ -55,7 +63,13 @@ public class EmployeeCtrller {
     ////////////// CRUD shifts //////////////
     @GetMapping("/{id}/shifts")
     public Optional<List<Shift>> getAllShifts(@PathVariable long id) {
-        return shiftSvc.getShiftByEmpId(id);
+        return shiftSvc.getShiftsByEmpId(id);
+    }
+
+    @GetMapping("/{id}/unstaffedShifts")
+    public Optional<List<Shift>> getAllUnstaffedShifts(@PathVariable long id) {
+        // employee does NOT need to know about unstaffedShifts in the past
+        return shiftSvc.findAllUnexpiredUnstaffedShifts();
     }
 
 }

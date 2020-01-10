@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -143,12 +145,20 @@ public class AdminCtrller {
         shiftSvc.deleteShift(id);
     }
 
-    @GetMapping("/shifts/availableEmployees/{date}")
-    public String getAvailEmployees(@PathVariable Date date) {
-        System.out.println("AdminCTRLLER received " + date);
 
-        return "WORKIGN ON IT!!!";
+    @GetMapping("/shifts/availableEmployees/{shiftId}")
+    public List<Employee> getAvailEmployeesByShift(@PathVariable long shiftId) {
+        System.out.println("AdminCTRLLER rec'd request for available Emps for shift obj id#" + shiftId);
+        return employeeSvc.getAvailEmployeesByShift(shiftId);
     }
+
+    @GetMapping("/employees/availableEmployees/{dateStr}")
+    public List<Employee> getAvailEmployeesByDate(@PathVariable String dateStr) {
+        LocalDate date = LocalDate.parse(dateStr);
+        System.out.println("AdminCTRLLER rec'd request for available Emps for date =" + date);
+        return employeeSvc.getAvailEmployeesByDate(date);
+    }
+
     ////////////// end CRUD shifts //////////////
 
     ////////////// CRUD unavails //////////////
@@ -157,6 +167,7 @@ public class AdminCtrller {
         return unavailSvc.findAll();
     }
 
+    // admin will need to specify employee otherwise Unavail table won't accept
     @PostMapping("/unavails")
     public Unavail postUnavail(@RequestBody Unavail unavail) {
         return unavailSvc.addNewUnavail(unavail);
