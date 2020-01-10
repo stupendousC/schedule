@@ -25,6 +25,17 @@ public class UnavailSvc {
         return (List<Unavail>) unavailRepository.findAll();
     }
 
+    public Optional<List<Unavail>> findAllUnexpired() {
+        List<Unavail> allUnavails = findAll();
+        LocalDate today = LocalDate.now(Clock.systemDefaultZone());
+
+        List<Unavail> allUnexpiredUnavails = allUnavails.stream()
+                .filter( unavail -> unavail.getDay_off().isAfter(today))
+                .collect(Collectors.toList());
+
+        return Optional.of(allUnexpiredUnavails);
+    }
+
     public Unavail addNewUnavail(Unavail unavail) {
         System.out.println("SVC sees u want to add... day_off" + unavail.getDay_off() + " for " + unavail.getEmployee().getName());
         return unavailRepository.save(unavail);
@@ -36,11 +47,11 @@ public class UnavailSvc {
 
     public Optional<List<Unavail>> getUnavailsByEmpId(long id) {
         // admin & employee do NOT need the ones in the past
-        List<Unavail> allUnavails = findAll();
-        LocalDate today = LocalDate.now(Clock.systemDefaultZone());
+        Optional<List<Unavail>> allUnexpiredUnavailsOpt = findAllUnexpired();
+        if (allUnexpiredUnavailsOpt.isEmpty()) return Optional.empty();
 
-        List<Unavail> unavailsOfEmp = allUnavails.stream()
-                .filter(unavail -> (unavail.getEmployee_id() == id) && (unavail.getDay_off().isAfter(today)))
+        List<Unavail> unavailsOfEmp = allUnexpiredUnavailsOpt.get().stream()
+                .filter(unavail -> unavail.getEmployee_id() == id)
                 .collect(Collectors.toList());
 
         return Optional.of(unavailsOfEmp);
