@@ -152,11 +152,19 @@ public class AdminCtrller {
 
 
 
-    ////////////// FIND!!!//////////////////////////////////////////////////////////////////////
+
     @GetMapping("/shifts/availableEmployees/{shiftId}")
-    public List<Employee> getAvailEmployees(@PathVariable long shiftId) {
+    public List<Employee> getAvailEmployeesByShift(@PathVariable long shiftId) {
         System.out.println("AdminCTRLLER rec'd request for available Emps for shift obj id#" + shiftId);
-        return employeeSvc.getAvailEmployees(shiftId);
+        return employeeSvc.getAvailEmployeesByShift(shiftId);
+    }
+
+    ////////////// FIND!!!//////////////////////////////////////////////////////////////////////
+    @GetMapping("/employees/availableEmployees/{date}")
+    public String getAvailEmployeesByDate(@PathVariable LocalDate date) {
+        System.out.println("AdminCTRLLER rec'd request for available Emps for date =" + date);
+        return "WORKING ON IT!!!";
+//        return employeeSvc.getAvailEmployeesByDate(date);
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////
 

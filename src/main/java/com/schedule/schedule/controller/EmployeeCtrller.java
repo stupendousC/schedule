@@ -42,24 +42,11 @@ public class EmployeeCtrller {
         return unavailSvc.getUnavailsByEmpId(id);
     }
 
-
-
-
-
-    // FIX IN PROGRESS... post needs to see day_off and employee obj in requestBody
     @PostMapping("/{id}/unavails")
     public Unavail postUnavail(@PathVariable long id, @RequestBody Unavail unavail) {
         System.out.println("CTRL sees u wanting to add... " + unavail.getDay_off() + " for emp #" + id );
         return unavailSvc.addNewUnavail(id, unavail);
     }
-
-
-
-
-
-
-
-
 
     @DeleteMapping("/{id}/unavails/{availId}")
     public Optional<List<Unavail>> deleteUnavail(@PathVariable long id, @PathVariable long availId) {

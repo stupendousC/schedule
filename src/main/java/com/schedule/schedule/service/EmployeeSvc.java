@@ -79,22 +79,7 @@ public class EmployeeSvc {
         });
     }
 
-
-
-    ///////// TESTING     ///////// TESTING    ///////// TESTING    ///////// TESTING    ///////// TESTING
-// ABANDONING b/c of fucked up fcn in shiftSVC.getShiftsbyEmpId
-//    public boolean isEmpWorkingOnDate(long employeeId, LocalDate date) {
-//        Optional<List<Shift>> allShiftsForEmp = shiftSvc.getShiftByEmpId(employeeId);
-//
-//        if (allShiftsForEmp.isEmpty()) { return false; }
-//
-//        for (Shift shift: allShiftsForEmp.get()) {
-//            if (shift.getShift_date().equals(date)) return true;
-//        }
-//        return false;
-//    }
-
-    public List<Employee> getAvailEmployees(long shiftId) {
+    public List<Employee> getAvailEmployeesByShift(long shiftId) {
         System.out.println("EmployeeSvc rec'd request for available Emps for shift obj id#" + shiftId);
 
         // find the shift obj based on shiftId
@@ -136,14 +121,94 @@ public class EmployeeSvc {
         System.out.println("We found " + allEligibleEmps.size() + "eligibileEmps!!");
         return allEligibleEmps;
     }
+
+
+
+
+
+    public List<Employee> getAvailEmployeesByDate(LocalDate targetDate) {
+        System.out.println("EmployeeSvc rec'd request for available Emps for date = " + targetDate);
+
+
+
+
+
+        // find who's 1. not in Unavails for that day AND 2. not in Shifts for that day
+        // 0.   assemble list of active employees
+        List<Employee> allEligibleEmps = findAllActives();
+        // 1.   filter out those with an unavailable date == shift date
+        Optional<List<Unavail>> allUnavailsOnDate = unavailSvc.getUnavailsByDate(targetDate);
+        if (allUnavailsOnDate.isPresent()) {
+            System.out.println("Some peeps are on vacay");
+            List<Unavail> unavails = allUnavailsOnDate.get();
+            // remove the employees in unavails from allEligibleEmps
+            unavails.forEach( unavail -> {
+                Employee ineligibleEmp = unavail.getEmployee();
+                allEligibleEmps.remove(ineligibleEmp);
+            });
+        }
+
+        System.out.println("Now only " + allEligibleEmps.size() + "eligibileEmps left.  OK up to this point");
+
+        // 2.   filter out remaining people who already have a diff shift on same date
+        Optional<List<Shift>> allStaffedShiftsOnDateOptional= shiftSvc.findAllStaffedShiftsOnDate(targetDate);
+        if (allStaffedShiftsOnDateOptional.isPresent()) {
+            List<Shift> allStaffedShiftsOnDate = allStaffedShiftsOnDateOptional.get();
+
+            for (Shift currShift : allStaffedShiftsOnDate) {
+                // remove currShift's employee from allEligibleEmps
+                Employee ineligibleEmp = currShift.getEmployee();
+                allEligibleEmps.remove(ineligibleEmp);
+            }
+        }
+
+        System.out.println("We found " + allEligibleEmps.size() + "eligibileEmps!!");
+        return allEligibleEmps;
+    }
 }
 
 
-//        allEligibleEmps.forEach(employee -> {
-//            System.out.println("Is this person workign that day?" + employee.getName());
-//            System.out.println(isEmpWorkingOnDate(employee.getId(), targetDate));
+
+////// PREV SAFE VERSION, before refactoring w/ getAvailEmployeesByDate
+//    public List<Employee> getAvailEmployeesByShift(long shiftId) {
+//        System.out.println("EmployeeSvc rec'd request for available Emps for shift obj id#" + shiftId);
 //
-//            if (isEmpWorkingOnDate(employee.getId(), targetDate)) {
-//                allEligibleEmps.remove(employee);
+//        // find the shift obj based on shiftId
+//        Optional<Shift> optionalShift = shiftSvc.findById(shiftId);
+//        if (optionalShift.isEmpty()) return new ArrayList<>();
+//        // if shift exists, extract Shift obj out of the Optional via .get()
+//        Shift shift = optionalShift.get();
+//        LocalDate targetDate = shift.getShift_date();
+//
+//        // find who's 1. not in Unavails for that day AND 2. not in Shifts for that day
+//        // 0.   assemble list of active employees
+//        List<Employee> allEligibleEmps = findAllActives();
+//        // 1.   filter out those with an unavailable date == shift date
+//        Optional<List<Unavail>> allUnavailsOnDate = unavailSvc.getUnavailsByDate(targetDate);
+//        if (allUnavailsOnDate.isPresent()) {
+//            System.out.println("Some peeps are on vacay");
+//            List<Unavail> unavails = allUnavailsOnDate.get();
+//            // remove the employees in unavails from allEligibleEmps
+//            unavails.forEach( unavail -> {
+//                Employee ineligibleEmp = unavail.getEmployee();
+//                allEligibleEmps.remove(ineligibleEmp);
+//            });
+//        }
+//
+//        System.out.println("Now only " + allEligibleEmps.size() + "eligibileEmps left.  OK up to this point");
+//
+//        // 2.   filter out remaining people who already have a diff shift on same date
+//        Optional<List<Shift>> allStaffedShiftsOnDateOptional= shiftSvc.findAllStaffedShiftsOnDate(targetDate);
+//        if (allStaffedShiftsOnDateOptional.isPresent()) {
+//            List<Shift> allStaffedShiftsOnDate = allStaffedShiftsOnDateOptional.get();
+//
+//            for (Shift currShift : allStaffedShiftsOnDate) {
+//                // remove currShift's employee from allEligibleEmps
+//                Employee ineligibleEmp = currShift.getEmployee();
+//                allEligibleEmps.remove(ineligibleEmp);
 //            }
-//        });
+//        }
+//
+//        System.out.println("We found " + allEligibleEmps.size() + "eligibileEmps!!");
+//        return allEligibleEmps;
+//    }
