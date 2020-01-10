@@ -7,6 +7,7 @@ import com.schedule.schedule.model.Unavail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +27,6 @@ public class UnavailSvc {
 
     public Unavail addNewUnavail(Unavail unavail) {
         System.out.println("SVC sees u want to add... day_off" + unavail.getDay_off() + " for " + unavail.getEmployee().getName());
-
-        // EmployeeCtrller sent arg unavail obj with only the date loaded from front-end
-        // need to set add employee obj onto it
-
-
         return unavailRepository.save(unavail);
     }
 
@@ -39,9 +35,12 @@ public class UnavailSvc {
     }
 
     public Optional<List<Unavail>> getUnavailsByEmpId(long id) {
+        // admin & employee do NOT need the ones in the past
         List<Unavail> allUnavails = findAll();
+        LocalDate today = LocalDate.now(Clock.systemDefaultZone());
+
         List<Unavail> unavailsOfEmp = allUnavails.stream()
-                .filter(unavail -> unavail.getEmployee_id() == id)
+                .filter(unavail -> (unavail.getEmployee_id() == id) && (unavail.getDay_off().isAfter(today)))
                 .collect(Collectors.toList());
 
         return Optional.of(unavailsOfEmp);
