@@ -61,7 +61,6 @@ public class UnavailSvc {
         List<Unavail> allUnavails = findAll();
         List<Unavail> unavailsOfDate = allUnavails.stream()
                 .filter(unavail -> {
-//                    System.out.println(unavail.getDay_off() + " VS " + date + " --> " + unavail.getDay_off().equals(date));
                     return unavail.getDay_off().equals(date); })
                 .collect(Collectors.toList());
         return Optional.of(unavailsOfDate);
