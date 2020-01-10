@@ -21,6 +21,20 @@ public class ShiftSvc {
         return (List<Shift>) shiftRepository.findAll();
     }
 
+    public Optional<List<Shift>> findAllUnstaffedShifts() {
+        List<Shift> allShifts = findAll();
+        if (allShifts.size() == 0) return Optional.empty();
+
+        List<Shift> unstaffedShiftsList = new ArrayList<>();
+        for (Shift shift : allShifts) {
+            if ((shift.getEmployee() == null)) {
+                unstaffedShiftsList.add(shift);
+            }
+        }
+
+        return Optional.of(unstaffedShiftsList);
+    }
+
     public Optional<List<Shift>> findAllStaffedShifts() {
         List<Shift> allShifts = findAll();
         if (allShifts.size() == 0) return Optional.empty();
