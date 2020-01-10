@@ -42,10 +42,22 @@ public class EmployeeCtrller {
         return unavailSvc.getUnavailsByEmpId(id);
     }
 
+//    @PostMapping("/{id}/unavails")
+//    public Unavail postUnavail(@PathVariable long id, @RequestBody Unavail unavail) {
+//        System.out.println("CTRL sees u wanting to add... " + unavail.getDay_off() + " for emp #" + id );
+//        return unavailSvc.addNewUnavail(id, unavail);
+//    }
+
     @PostMapping("/{id}/unavails")
     public Unavail postUnavail(@PathVariable long id, @RequestBody Unavail unavail) {
         System.out.println("CTRL sees u wanting to add... " + unavail.getDay_off() + " for emp #" + id );
-        return unavailSvc.addNewUnavail(id, unavail);
+        Optional<Employee> employeeMaybe = getEmployeeById(id);
+        if (employeeMaybe.isPresent()) {
+            unavail.setEmployee(employeeMaybe.get());
+            return unavailSvc.addNewUnavail(unavail);
+        } else {
+            return new Unavail();
+        }
     }
 
     @DeleteMapping("/{id}/unavails/{availId}")
@@ -58,7 +70,7 @@ public class EmployeeCtrller {
     ////////////// CRUD shifts //////////////
     @GetMapping("/{id}/shifts")
     public Optional<List<Shift>> getAllShifts(@PathVariable long id) {
-        return shiftSvc.getShiftByEmpId(id);
+        return shiftSvc.getShiftsByEmpId(id);
     }
 
 }

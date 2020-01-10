@@ -146,38 +146,20 @@ public class AdminCtrller {
     }
 
 
-
-
-
-
-
-
-
     @GetMapping("/shifts/availableEmployees/{shiftId}")
     public List<Employee> getAvailEmployeesByShift(@PathVariable long shiftId) {
         System.out.println("AdminCTRLLER rec'd request for available Emps for shift obj id#" + shiftId);
         return employeeSvc.getAvailEmployeesByShift(shiftId);
     }
 
-    ////////////// FIND!!!//////////////////////////////////////////////////////////////////////
-    @GetMapping("/employees/availableEmployees/{date}")
-    public String getAvailEmployeesByDate(@PathVariable LocalDate date) {
+    @GetMapping("/employees/availableEmployees/{dateStr}")
+    public List<Employee> getAvailEmployeesByDate(@PathVariable String dateStr) {
+        LocalDate date = LocalDate.parse(dateStr);
         System.out.println("AdminCTRLLER rec'd request for available Emps for date =" + date);
-        return "WORKING ON IT!!!";
-//        return employeeSvc.getAvailEmployeesByDate(date);
+        return employeeSvc.getAvailEmployeesByDate(date);
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     ////////////// end CRUD shifts //////////////
-
-
-
-
-
-
-
-
 
     ////////////// CRUD unavails //////////////
     @GetMapping("/unavails")
@@ -185,11 +167,10 @@ public class AdminCtrller {
         return unavailSvc.findAll();
     }
 
-    // Admin would need to specify which employee first
-//    @PostMapping("/unavails")
-//    public Unavail postUnavail(@RequestBody Unavail unavail) {
-//        return unavailSvc.addNewUnavail(unavail);
-//    }
+    @PostMapping("/unavails")
+    public Unavail postUnavail(@RequestBody Unavail unavail) {
+        return unavailSvc.addNewUnavail(unavail);
+    }
 
     @GetMapping("/unavails/{id}")
     public Optional<Unavail> getUnavailById(@PathVariable long id) {

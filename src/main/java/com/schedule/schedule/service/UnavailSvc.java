@@ -24,13 +24,12 @@ public class UnavailSvc {
         return (List<Unavail>) unavailRepository.findAll();
     }
 
-    public Unavail addNewUnavail(long employee_id, Unavail unavail) {
-        System.out.println("SVC sees u want to add... day_off" + unavail.getDay_off() + " for emp #" + employee_id);
+    public Unavail addNewUnavail(Unavail unavail) {
+        System.out.println("SVC sees u want to add... day_off" + unavail.getDay_off() + " for " + unavail.getEmployee().getName());
 
         // EmployeeCtrller sent arg unavail obj with only the date loaded from front-end
         // need to set add employee obj onto it
-        Optional<Employee> foundEmployee = employeeRepository.findById(employee_id);
-        foundEmployee.ifPresent(unavail::setEmployee);
+
 
         return unavailRepository.save(unavail);
     }

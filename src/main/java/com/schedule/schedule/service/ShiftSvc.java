@@ -57,22 +57,15 @@ public class ShiftSvc {
         return shiftRepository.findById(id);
     }
 
+    public Optional<List<Shift>> getShiftsByEmpId(long id) {
 
+        Optional<List<Shift>> allStaffedShifts = findAllStaffedShifts();
+        if (allStaffedShifts.isEmpty()) return Optional.empty();
 
-
-
-
-
-    ///////// this is all messed up
-    public Optional<List<Shift>> getShiftByEmpId(long id) {
-        List<Shift> allShifts = findAll();
-
-        if (allShifts.size() == 0) { return Optional.empty(); }
-
-        List<Shift> empShifts = allShifts.stream()
+        List<Shift> empShifts = allStaffedShifts.get().stream()
                 .filter(shift -> {
-                    System.out.println("\tdoes this shift belong to this emp?" + (id==shift.getEmployee().getId()));
-                    return (id == shift.getEmployee().getId());
+                    System.out.println(shift.getEmployee().getId() == id);
+                    return (shift.getEmployee().getId() == id);
                 })
                 .collect(Collectors.toList());
 

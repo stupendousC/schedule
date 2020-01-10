@@ -89,49 +89,11 @@ public class EmployeeSvc {
         Shift shift = optionalShift.get();
         LocalDate targetDate = shift.getShift_date();
 
-        // find who's 1. not in Unavails for that day AND 2. not in Shifts for that day
-        // 0.   assemble list of active employees
-        List<Employee> allEligibleEmps = findAllActives();
-        // 1.   filter out those with an unavailable date == shift date
-        Optional<List<Unavail>> allUnavailsOnDate = unavailSvc.getUnavailsByDate(targetDate);
-        if (allUnavailsOnDate.isPresent()) {
-            System.out.println("Some peeps are on vacay");
-            List<Unavail> unavails = allUnavailsOnDate.get();
-            // remove the employees in unavails from allEligibleEmps
-            unavails.forEach( unavail -> {
-                Employee ineligibleEmp = unavail.getEmployee();
-                allEligibleEmps.remove(ineligibleEmp);
-            });
-        }
-
-        System.out.println("Now only " + allEligibleEmps.size() + "eligibileEmps left.  OK up to this point");
-
-        // 2.   filter out remaining people who already have a diff shift on same date
-        Optional<List<Shift>> allStaffedShiftsOnDateOptional= shiftSvc.findAllStaffedShiftsOnDate(targetDate);
-        if (allStaffedShiftsOnDateOptional.isPresent()) {
-            List<Shift> allStaffedShiftsOnDate = allStaffedShiftsOnDateOptional.get();
-
-            for (Shift currShift : allStaffedShiftsOnDate) {
-                // remove currShift's employee from allEligibleEmps
-                Employee ineligibleEmp = currShift.getEmployee();
-                allEligibleEmps.remove(ineligibleEmp);
-            }
-        }
-
-        System.out.println("We found " + allEligibleEmps.size() + "eligibileEmps!!");
-        return allEligibleEmps;
+        return getAvailEmployeesByDate(targetDate);
     }
-
-
-
-
 
     public List<Employee> getAvailEmployeesByDate(LocalDate targetDate) {
         System.out.println("EmployeeSvc rec'd request for available Emps for date = " + targetDate);
-
-
-
-
 
         // find who's 1. not in Unavails for that day AND 2. not in Shifts for that day
         // 0.   assemble list of active employees
