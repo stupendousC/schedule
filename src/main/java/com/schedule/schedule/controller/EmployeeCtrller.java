@@ -5,7 +5,6 @@ import com.schedule.schedule.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,8 +67,21 @@ public class EmployeeCtrller {
 
     @GetMapping("/{id}/unstaffedShifts")
     public Optional<List<Shift>> getAllUnstaffedShifts(@PathVariable long id) {
-        // employee does NOT need to know about unstaffedShifts in the past
         return shiftSvc.findAllUnexpiredUnstaffedShifts();
+    }
+
+
+
+
+
+
+    @PutMapping("/{id}/shifts/{shiftId}")
+    public Optional<List<Shift>> addEmployeeToShift(@PathVariable long id, @PathVariable long shiftId) {
+        // find employeeObj and shiftObj from pathVars, then save the employeeObj onto that shiftObj
+        shiftSvc.addEmployeeToShiftFromIds(id, shiftId);
+
+        // return employee's current list of shifts
+        return getAllShifts(id);
     }
 
 }

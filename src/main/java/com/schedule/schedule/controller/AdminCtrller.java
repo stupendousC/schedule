@@ -32,7 +32,7 @@ public class AdminCtrller {
     ////////////// CRUD admins //////////////
     @GetMapping("/admins")
     public List<Admin> getAllAdmins(Model admin) {
-        System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all ACTIVE admin personnel");
+//        System.out.println("\nAdminCtrller -> AdminSvc, GET /admin/admins for a list of all ACTIVE admin personnel");
 
 //        System.out.println("RECEIVED PATH VARIABLES: googleId = " + googleId + " ROLE = " + authenticatedRole);
 
@@ -41,7 +41,7 @@ public class AdminCtrller {
 
     @PostMapping("/admins")
     public Admin postAdmin(@RequestBody Admin admin) {
-        System.out.println("\nAdminCtrller -> AdminSvc, POST /admin/admins to add new admin " + admin.getName());
+//        System.out.println("\nAdminCtrller -> AdminSvc, POST /admin/admins to add new admin " + admin.getName());
         return adminSvc.addNewAdmin(admin);
     }
 

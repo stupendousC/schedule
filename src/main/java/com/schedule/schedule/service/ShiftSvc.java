@@ -1,6 +1,7 @@
 package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.ShiftRepository;
+import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class ShiftSvc {
 
     @Autowired
     private ShiftRepository shiftRepository;
+    @Autowired
+    private EmployeeSvc employeeSvc;
 
     public List<Shift> findAll() {
         return (List<Shift>) shiftRepository.findAll();
@@ -106,9 +109,6 @@ public class ShiftSvc {
         Optional<Shift> shiftMaybe = shiftRepository.findById(id);
 
         shiftMaybe.ifPresent( shift -> {
-            // following 2 lines replaced b/c of ORM
-//            shift.setClient_id(newInfoShift.getClient_id());
-//            shift.setEmployee_id(newInfoShift.getEmployee_id());
             shift.setClient(newInfoShift.getClient());
             shift.setEmployee(newInfoShift.getEmployee());
             shift.setShift_date(newInfoShift.getShift_date());
@@ -119,6 +119,38 @@ public class ShiftSvc {
 
         return shiftMaybe;
     }
+
+
+    public Shift addEmployeeToShiftFromIds(long employeeId, long shiftId) {
+        Optional<Shift> foundShift = findById(shiftId);
+        Optional<Employee> foundEmployee = employeeSvc.getEmployeeById(employeeId);
+
+        // if bogus shiftId or employeeId, return empty unsaved shift
+        if (foundShift.isEmpty() || foundEmployee.isEmpty()) return new Shift();
+        // else, extract the actual objects out from Optionals
+        Shift shift = foundShift.get();
+        Employee employee = foundEmployee.get();
+
+        return addEmployeeToShift(employee, shift);
+    }
+
+
+    public Shift addEmployeeToShift(Employee employee, Shift shift) {
+        shift.setEmployee(employee);
+        return shiftRepository.save(shift);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void deleteShift(long id) {
         shiftRepository.deleteById(id);
