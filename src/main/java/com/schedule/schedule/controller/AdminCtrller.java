@@ -120,6 +120,7 @@ public class AdminCtrller {
     ////////////// end CRUD clients //////////////
 
     ////////////// CRUD shifts //////////////
+    // As the company grows, should probably archive worked shifts in the past somewhere else?
     @GetMapping("/shifts")
     public List<Shift> getAllShifts() {
         return shiftSvc.findAll();
@@ -144,7 +145,6 @@ public class AdminCtrller {
     public void deleteShift(@PathVariable long id) {
         shiftSvc.deleteShift(id);
     }
-
 
     @GetMapping("/shifts/availableEmployees/{shiftId}")
     public List<Employee> getAvailEmployeesByShift(@PathVariable long shiftId) {

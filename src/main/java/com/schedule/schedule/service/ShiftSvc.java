@@ -97,7 +97,6 @@ public class ShiftSvc {
 
         List<Shift> empShifts = allStaffedShifts.get().stream()
                 .filter(shift -> {
-                    System.out.println(shift.getEmployee().getId() == id);
                     return (shift.getEmployee().getId() == id);
                 })
                 .collect(Collectors.toList());
