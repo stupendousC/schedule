@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
-//@CrossOrigin(origins = {"http://domain2.com", "url2", etc})
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin
 public class EmployeeCtrller {
 
     @Autowired

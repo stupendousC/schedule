@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
-//@CrossOrigin(origins = {"http://domain2.com", "url2", etc})
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin
 public class AdminCtrller {
 
     @Autowired
@@ -126,11 +126,9 @@ public class AdminCtrller {
         return shiftSvc.findAll();
     }
 
-    @PostMapping("/shifts/{clientId}")
-    public Shift postShift(@PathVariable long clientId, @RequestBody Shift shift) {
-        System.out.println("\n\nwhat is in requestbody???" + shift.getId() + shift.getClient());
-
-        return shiftSvc.addNewShift(shift, clientId);
+    @PostMapping("/shifts")
+    public Shift postShift( @RequestBody Shift shift) {
+        return shiftSvc.addNewShift(shift);
     }
 
     @GetMapping("/shifts/{id}")

@@ -84,14 +84,7 @@ public class ShiftSvc {
 
     public Optional<Shift> findById(long id) { return shiftRepository.findById(id); }
 
-    public Shift addNewShift(Shift shift, long clientId) {
-        // shift has client=null, need to save clientObj from clientId onto shift
-        Optional<Client> client = clientSvc.getClientById(clientId);
-        if (client.isEmpty()) {
-            // will get rejected with a 500 error b/c clientId is still null
-        } else {
-            shift.setClient(client.get());
-        }
+    public Shift addNewShift(Shift shift) {
         return shiftRepository.save(shift);
     }
 
