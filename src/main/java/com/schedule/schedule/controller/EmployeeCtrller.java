@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
-//@CrossOrigin(origins = {"http://domain2.com", "url2", etc})
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin
 public class EmployeeCtrller {
 
     @Autowired
@@ -69,11 +69,6 @@ public class EmployeeCtrller {
     public Optional<List<Shift>> getAllUnstaffedShifts(@PathVariable long id) {
         return shiftSvc.findAllUnexpiredUnstaffedShifts();
     }
-
-
-
-
-
 
     @PutMapping("/{id}/shifts/{shiftId}")
     public Optional<List<Shift>> addEmployeeToShift(@PathVariable long id, @PathVariable long shiftId) {

@@ -1,6 +1,7 @@
 package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.ShiftRepository;
+import com.schedule.schedule.model.Client;
 import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ShiftSvc {
     private ShiftRepository shiftRepository;
     @Autowired
     private EmployeeSvc employeeSvc;
+    @Autowired ClientSvc clientSvc;
 
     public List<Shift> findAll() {
         return (List<Shift>) shiftRepository.findAll();
@@ -96,10 +98,7 @@ public class ShiftSvc {
         if (allStaffedShifts.isEmpty()) return Optional.empty();
 
         List<Shift> empShifts = allStaffedShifts.get().stream()
-                .filter(shift -> {
-                    System.out.println(shift.getEmployee().getId() == id);
-                    return (shift.getEmployee().getId() == id);
-                })
+                .filter(shift -> (shift.getEmployee().getId() == id))
                 .collect(Collectors.toList());
 
         return Optional.of(empShifts);
