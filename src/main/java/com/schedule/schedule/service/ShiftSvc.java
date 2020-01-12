@@ -1,6 +1,7 @@
 package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.ShiftRepository;
+import com.schedule.schedule.model.Client;
 import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ShiftSvc {
     private ShiftRepository shiftRepository;
     @Autowired
     private EmployeeSvc employeeSvc;
+    @Autowired ClientSvc clientSvc;
 
     public List<Shift> findAll() {
         return (List<Shift>) shiftRepository.findAll();
@@ -82,7 +84,14 @@ public class ShiftSvc {
 
     public Optional<Shift> findById(long id) { return shiftRepository.findById(id); }
 
-    public Shift addNewShift(Shift shift) {
+    public Shift addNewShift(Shift shift, long clientId) {
+        // shift has client=null, need to save clientObj from clientId onto shift
+        Optional<Client> client = clientSvc.getClientById(clientId);
+        if (client.isEmpty()) {
+            // will get rejected with a 500 error b/c clientId is still null
+        } else {
+            shift.setClient(client.get());
+        }
         return shiftRepository.save(shift);
     }
 
@@ -96,9 +105,7 @@ public class ShiftSvc {
         if (allStaffedShifts.isEmpty()) return Optional.empty();
 
         List<Shift> empShifts = allStaffedShifts.get().stream()
-                .filter(shift -> {
-                    return (shift.getEmployee().getId() == id);
-                })
+                .filter(shift -> (shift.getEmployee().getId() == id))
                 .collect(Collectors.toList());
 
         return Optional.of(empShifts);

@@ -126,9 +126,11 @@ public class AdminCtrller {
         return shiftSvc.findAll();
     }
 
-    @PostMapping("/shifts")
-    public Shift postShift(@RequestBody Shift shift) {
-        return shiftSvc.addNewShift(shift);
+    @PostMapping("/shifts/{clientId}")
+    public Shift postShift(@PathVariable long clientId, @RequestBody Shift shift) {
+        System.out.println("\n\nwhat is in requestbody???" + shift.getId() + shift.getClient());
+
+        return shiftSvc.addNewShift(shift, clientId);
     }
 
     @GetMapping("/shifts/{id}")
