@@ -1,0 +1,45 @@
+// FOLLOWED TUTORIAL FROM https://www.youtube.com/watch?v=OuBttmaPlhM&t=866s
+
+package com.schedule.schedule;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ConfigurationProperties("twilio")
+public class TwilioConfiguration {
+
+    private String accountSid;
+    private String authToken;
+    private String trialNumber;
+
+    public TwilioConfiguration() {
+    // yes this is empty
+    }
+
+
+    // GETTERS & SETTERS
+    public String getAccountSid() {
+        return accountSid;
+    }
+
+    public void setAccountSid(String accountSid) {
+        this.accountSid = accountSid;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
+    public String getTrialNumber() {
+        return trialNumber;
+    }
+
+    public void setTrialNumber(String trialNumber) {
+        this.trialNumber = trialNumber;
+    }
+}
