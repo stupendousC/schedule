@@ -14,9 +14,10 @@ import javax.validation.Valid;
 @RequestMapping("sendText")
 public class TwilioCtrller {
 
+    @Autowired
     private final TwilioSvc twilioSvc;
 
-    @Autowired
+    //    @Autowired      // I moved this up by TwilioSvc, feels like it makes more sense there.  I think as long as I don't mess with Autowired on TwilioConfig it's ok
     public TwilioCtrller(TwilioSvc twilioSvc) {
         this.twilioSvc = twilioSvc;
     }

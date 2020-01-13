@@ -7,3 +7,6 @@ public interface SmsSender {
     void sendSms(SmsRequest smsRequest);
 
 }
+
+
+// why bother with this?  In case of diff text sending providers, maybe a twilio competitor or soemthing.
