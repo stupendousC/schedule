@@ -1,6 +1,6 @@
 // FOLLOWED TUTORIAL FROM https://www.youtube.com/watch?v=OuBttmaPlhM&t=866s
 
-package com.schedule.schedule;
+package com.schedule.schedule.twilio;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

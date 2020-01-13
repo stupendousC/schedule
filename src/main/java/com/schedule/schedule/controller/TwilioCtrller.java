@@ -1,5 +1,7 @@
-package com.schedule.schedule;
+package com.schedule.schedule.controller;
 
+import com.schedule.schedule.service.TwilioSvc;
+import com.schedule.schedule.twilio.SmsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,17 +12,17 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("sendText")
-public class Controller {
+public class TwilioCtrller {
 
-    private final Service service;
+    private final TwilioSvc twilioSvc;
 
     @Autowired
-    public Controller(Service service) {
-        this.service = service;
+    public TwilioCtrller(TwilioSvc twilioSvc) {
+        this.twilioSvc = twilioSvc;
     }
 
     @PostMapping
     public void sendSms(@Valid @RequestBody SmsRequest smsRequest) {
-        service.sendSms(smsRequest);
+        twilioSvc.sendSms(smsRequest);
     }
 }

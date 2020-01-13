@@ -1,4 +1,4 @@
-package com.schedule.schedule;
+package com.schedule.schedule.twilio;
 
 
 import com.twilio.Twilio;

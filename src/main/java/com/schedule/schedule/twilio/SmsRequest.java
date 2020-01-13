@@ -1,4 +1,4 @@
-package com.schedule.schedule;
+package com.schedule.schedule.twilio;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
