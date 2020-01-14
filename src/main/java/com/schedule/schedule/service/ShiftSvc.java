@@ -27,20 +27,6 @@ public class ShiftSvc {
         return (List<Shift>) shiftRepository.findAll();
     }
 
-    public Optional<List<Shift>> findAllUnstaffedShifts() {
-        List<Shift> allShifts = findAll();
-        if (allShifts.size() == 0) return Optional.empty();
-
-        List<Shift> unstaffedShiftsList = new ArrayList<>();
-        for (Shift shift : allShifts) {
-            if ((shift.getEmployee() == null)) {
-                unstaffedShiftsList.add(shift);
-            }
-        }
-
-        return Optional.of(unstaffedShiftsList);
-    }
-
     public Optional<List<Shift>> findAllUnexpiredUnstaffedShifts() {
         List<Shift> allShifts = findAll();
         if (allShifts.size() == 0) return Optional.empty();
@@ -66,7 +52,6 @@ public class ShiftSvc {
                 staffedShiftsList.add(shift);
             }
         }
-
         return Optional.of(staffedShiftsList);
     }
 
@@ -90,6 +75,21 @@ public class ShiftSvc {
 
     public Optional<Shift> getShiftById(long id) {
         return shiftRepository.findById(id);
+    }
+
+    public Optional<Shift> getUnstaffedShiftById(long id) {
+        // first make sure the shiftId really is an unexpired & unstaffed shift
+        Optional<List<Shift>> allUnexpiredUnstaffedShiftsOpt = findAllUnexpiredUnstaffedShifts();
+        if (allUnexpiredUnstaffedShiftsOpt.isEmpty()) { return Optional.empty(); }
+
+        List<Shift> allUnexpiredUnstaffedShifts = allUnexpiredUnstaffedShiftsOpt.get();
+
+        Optional<Shift> selectedShift = allUnexpiredUnstaffedShifts.stream()
+                .filter(shift -> id == shift.getId())
+                .findFirst();
+
+        System.out.println("\n\nFOUND" + selectedShift.get().getId());
+        return selectedShift;
     }
 
     public Optional<List<Shift>> getShiftsByEmpId(long id) {
