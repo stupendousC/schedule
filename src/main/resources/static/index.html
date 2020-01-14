@@ -6,11 +6,9 @@
 </head>
 <body>
 <h1>SCHEDULE++</h1>
+<h2>Here are all the available endpoints</h2>
 
-<h4>API cap'd = working on localhost</h4>
-<h4>API lowercase = todo</h4>
-<h4>API !!! = works on deployed</h4>
-
+<h1>===== ADMIN routes =====</h1>
 <h3>GET/POST        /admin/employees</h3>
 <h3>GET/PUT/DELETE  /admin/employees/:id</h3>
 <hr/>
@@ -25,5 +23,26 @@
 <hr/>
 <h3>GET/POST       /admin/unavails</h3>
 <h3>GET/DELETE  /admin/unavails/:id <- no Put planned b/c u either available(post) or not(delete)</h3>
+<hr/>
+
+<h1>===== EMPLOYEE routes =====</h1>
+<h3>GET/PUT        /employees/:id</h3>
+<h3>GET/POST/DELETE  /employees/:id/unavails</h3>
+<h3>GET             /employees/:id/shifts</h3>
+<h3>PUT             /employees/:id/shifts/:shiftId</h3>
+<h3>GET             /employees/:id/unstaffedShifts</h3>
+
+
+<h3>get&post?       /employees/:id/unstaffedShifts/:shiftId</h3>
+<hr/>
+
+<h1>===== LOGIN routes =====</h1>
+<h3>GET        /login/:googldId</h3>
+<hr/>
+
+<h1>===== TWILIO routes =====</h1>
+<h3>POST        /sendText</h3>
+<h3>POST        /sendText/getReply</h3>
+
 </body>
 </html>

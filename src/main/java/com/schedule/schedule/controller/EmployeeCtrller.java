@@ -65,11 +65,6 @@ public class EmployeeCtrller {
         return shiftSvc.getShiftsByEmpId(id);
     }
 
-    @GetMapping("/{id}/unstaffedShifts")
-    public Optional<List<Shift>> getAllUnstaffedShifts(@PathVariable long id) {
-        return shiftSvc.findAllUnexpiredUnstaffedShifts();
-    }
-
     @PutMapping("/{id}/shifts/{shiftId}")
     public Optional<List<Shift>> addEmployeeToShift(@PathVariable long id, @PathVariable long shiftId) {
         // find employeeObj and shiftObj from pathVars, then save the employeeObj onto that shiftObj
@@ -79,4 +74,15 @@ public class EmployeeCtrller {
         return getAllShifts(id);
     }
 
+    @GetMapping("/{id}/unstaffedShifts")
+    public Optional<List<Shift>> getAllUnstaffedShifts(@PathVariable long id) {
+        return shiftSvc.findAllUnexpiredUnstaffedShifts();
+    }
+
+    @GetMapping("/{id}/unstaffedShifts/{shiftId}")
+    // I *was* going to make this the text response
+    public Optional<Shift> getAllUnstaffedShifts(@PathVariable long id, @PathVariable long shiftId) {
+        System.out.println("empCtrller passing to Shift svc to find unstaffed shift Id #" + shiftId );
+        return shiftSvc.getUnstaffedShiftById(shiftId);
+    }
 }
