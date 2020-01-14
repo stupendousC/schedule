@@ -79,15 +79,9 @@ public class EmployeeCtrller {
         return shiftSvc.findAllUnexpiredUnstaffedShifts();
     }
 
-
-    /// TRIAL ///
-
     @GetMapping("/{id}/unstaffedShifts/{shiftId}")
+    // I *was* going to make this the text response
     public Optional<Shift> getAllUnstaffedShifts(@PathVariable long id, @PathVariable long shiftId) {
-        // this is the link from the texts send to employees,
-        // it allows them to click yes/no on our site,
-        // w/o having to fish it out of their dashboard's ShiftsTable component
-
         System.out.println("empCtrller passing to Shift svc to find unstaffed shift Id #" + shiftId );
         return shiftSvc.getUnstaffedShiftById(shiftId);
     }

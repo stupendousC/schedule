@@ -29,6 +29,6 @@ public class TwilioCtrller {
     @PostMapping("/getReply")
     public String receiveSms () {
 //        https://www.twilio.com/docs/sms/tutorials/how-to-receive-and-reply-java
-        return "NEED TO DEPLOY bc they won't accept my localhost";
+        return "NEED TO DEPLOY bc they won't accept my localhost, right now I have a workaround, which is texting a link instead";
     }
 }
