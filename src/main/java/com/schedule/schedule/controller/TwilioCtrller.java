@@ -21,7 +21,14 @@ public class TwilioCtrller {
     }
 
     @PostMapping
-    public void sendSms(@Valid @RequestBody SmsRequest smsRequest) {
+    public String sendSms(@Valid @RequestBody SmsRequest smsRequest) {
         twilioSvc.sendSms(smsRequest);
+        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
+    }
+
+    @PostMapping("/getReply")
+    public String receiveSms () {
+
+        return "workign on it";
     }
 }
