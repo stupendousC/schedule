@@ -12,8 +12,6 @@ public class Shift {
     @SequenceGenerator(name="shifts_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="shifts_id_seq")
     private long id;
-//    private long employee_id;
-//    private long client_id;
     private LocalDate shift_date;
     private LocalTime start_time;
     private LocalTime end_time;
