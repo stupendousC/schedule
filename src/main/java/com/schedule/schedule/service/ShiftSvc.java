@@ -120,12 +120,12 @@ public class ShiftSvc {
     }
 
 
-    public Shift addEmployeeToShiftFromIds(long employeeId, long shiftId) {
+    public Optional<Shift> addEmployeeToShiftFromIds(long employeeId, long shiftId) {
         Optional<Shift> foundShift = findById(shiftId);
         Optional<Employee> foundEmployee = employeeSvc.getEmployeeById(employeeId);
 
         // if bogus shiftId or employeeId, return empty unsaved shift
-        if (foundShift.isEmpty() || foundEmployee.isEmpty()) return new Shift();
+        if (foundShift.isEmpty() || foundEmployee.isEmpty()) return Optional.empty();
         // else, extract the actual objects out from Optionals
         Shift shift = foundShift.get();
         Employee employee = foundEmployee.get();
@@ -134,9 +134,16 @@ public class ShiftSvc {
     }
 
 
-    public Shift addEmployeeToShift(Employee employee, Shift shift) {
-        shift.setEmployee(employee);
-        return shiftRepository.save(shift);
+    public Optional<Shift> addEmployeeToShift(Employee employee, Shift shift) {
+        // ONLY allow setting if shift doesn't already have an employee!
+        System.out.println("\nshift.getEmployee() = "+shift.getEmployee() +" is it null? " + (shift.getEmployee() == null));
+        if (shift.getEmployee() == null) {
+            shift.setEmployee(employee);
+            return Optional.of(shiftRepository.save(shift));
+        } else {
+            System.out.println("this shift is already taken by " + shift.getEmployee().getName());
+            return Optional.empty();
+        }
     }
 
 
