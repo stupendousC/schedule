@@ -2,10 +2,12 @@ package com.schedule.schedule.controller;
 
 import com.schedule.schedule.model.*;
 import com.schedule.schedule.service.*;
+import com.schedule.schedule.twilio.SmsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,8 +16,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class AdminCtrller {
 
     @Autowired
@@ -28,6 +30,10 @@ public class AdminCtrller {
     private ShiftSvc shiftSvc;
     @Autowired
     private UnavailSvc unavailSvc;
+    @Autowired
+    private TwilioSvc twilioSvc;
+    @Autowired
+    private TextSvc textSvc;
 
     ////////////// CRUD admins //////////////
     @GetMapping("/admins")
@@ -148,14 +154,14 @@ public class AdminCtrller {
 
     @GetMapping("/shifts/availableEmployees/{shiftId}")
     public List<Employee> getAvailEmployeesByShift(@PathVariable long shiftId) {
-        System.out.println("AdminCTRLLER rec'd request for available Emps for shift obj id#" + shiftId);
+//        System.out.println("AdminCTRLLER rec'd request for available Emps for shift obj id#" + shiftId);
         return employeeSvc.getAvailEmployeesByShift(shiftId);
     }
 
     @GetMapping("/employees/availableEmployees/{dateStr}")
     public List<Employee> getAvailEmployeesByDate(@PathVariable String dateStr) {
         LocalDate date = LocalDate.parse(dateStr);
-        System.out.println("AdminCTRLLER rec'd request for available Emps for date =" + date);
+//        System.out.println("AdminCTRLLER rec'd request for available Emps for date =" + date);
         return employeeSvc.getAvailEmployeesByDate(date);
     }
 
@@ -183,4 +189,46 @@ public class AdminCtrller {
         unavailSvc.deleteUnavail(id);
     }
     ////////////// end CRUD unavails //////////////
+
+
+
+    ////////////// CRUD texts //////////////
+    @PostMapping("/sendText")
+    public String saveAndSendText(@RequestBody TextSmsCombo textSmsCombo) {
+
+//        System.out.println("\n\nAdminCtrller received megaCombo of...");
+//        System.out.println("phoneNum " + textSmsCombo.getPhoneNumber());
+//        System.out.println("msg = " + textSmsCombo.getMessage());
+//        System.out.println("uuid = " + textSmsCombo.getUuid());
+//        System.out.println("client =" + textSmsCombo.getClient().getName());
+//        System.out.println("employee =" + textSmsCombo.getEmployee().getName());
+
+        // Separate the received data into a Text object and a SmsRequest object
+        Text text = new Text(textSmsCombo.getUuid(), textSmsCombo.getEmployee(), textSmsCombo.getClient(), textSmsCombo.getShift());
+        SmsRequest smsRequest = new SmsRequest(textSmsCombo.getPhoneNumber(), textSmsCombo.getMessage());
+
+        // first add the new data to texts table in db
+        textSvc.addNewText(text);
+
+        // then send text out, which will refer to the id of the text obj in the link url
+        twilioSvc.sendSms(smsRequest);
+        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
+    }
 }
+
+
+
+/// FOR SAFEKEEPING, just in case
+//    @PostMapping("/sendText")
+//    public String sendSms(@Valid @RequestBody SmsRequest smsRequest) {
+//
+//        System.out.println("\n\nadminCTRL received via /sendText..." + smsRequest.getPhoneNumber() + smsRequest.getMessage());
+//
+//        // first add the new data to texts table in db
+//        // how?
+//
+//        // then send text out, which will refer to the id of the text obj in the link url
+//        twilioSvc.sendSms(smsRequest);
+//        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
+//    }
+

@@ -10,8 +10,7 @@ public class SmsRequest {
     @NotBlank
     private final String message;
 
-    public SmsRequest(@JsonProperty("phoneNumber") String phoneNumber,
-                      @JsonProperty("message") String message) {
+    public SmsRequest(String phoneNumber, String message) {
         // acceptable formats for destination phoneNumber = "14251112222" or "4251112222" or "425-111-2222" or "1-425-111-2222" or "(425)111-2222"
         this.phoneNumber = phoneNumber;
         this.message = message;
@@ -33,3 +32,13 @@ public class SmsRequest {
                 '}';
     }
 }
+
+
+// for SAFEKEEPING, just in case
+// getting the info out of json is now being done by TextSmsCombo model
+//    public SmsRequest(@JsonProperty("phoneNumber") String phoneNumber,
+//                      @JsonProperty("message") String message) {
+//        // acceptable formats for destination phoneNumber = "14251112222" or "4251112222" or "425-111-2222" or "1-425-111-2222" or "(425)111-2222"
+//        this.phoneNumber = phoneNumber;
+//        this.message = message;
+//    }
