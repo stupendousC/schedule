@@ -105,7 +105,6 @@ public class EmployeeSvc {
         // 1.   filter out those with an unavailable date == shift date
         Optional<List<Unavail>> allUnavailsOnDate = unavailSvc.getUnavailsByDate(targetDate);
         if (allUnavailsOnDate.isPresent()) {
-//            System.out.println("Some peeps are on vacay");
             List<Unavail> unavails = allUnavailsOnDate.get();
             // remove the employees in unavails from allEligibleEmps
             unavails.forEach( unavail -> {
@@ -113,8 +112,6 @@ public class EmployeeSvc {
                 allEligibleEmps.remove(ineligibleEmp);
             });
         }
-
-//        System.out.println("Now only " + allEligibleEmps.size() + "eligibileEmps left.  OK up to this point");
 
         // 2.   filter out remaining people who already have a diff shift on same date
         Optional<List<Shift>> allStaffedShiftsOnDateOptional= shiftSvc.findAllStaffedShiftsOnDate(targetDate);

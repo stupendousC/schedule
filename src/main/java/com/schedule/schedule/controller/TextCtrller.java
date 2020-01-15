@@ -1,5 +1,6 @@
 package com.schedule.schedule.controller;
 
+import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
 import com.schedule.schedule.model.Text;
 import com.schedule.schedule.service.ShiftSvc;
@@ -32,11 +33,6 @@ public class TextCtrller {
         return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
     }
 
-
-
-
-
-
     // When employees click on link that's inside their sms message...
     @GetMapping("/text/{uuid}")
     public Optional<Shift> uponEmployeeReply(@PathVariable String uuid) {
@@ -55,15 +51,25 @@ public class TextCtrller {
         }
     }
 
-
-    @PostMapping("/sendText/{uuid}")
-    public String empAcceptedShift(@PathVariable long uuid) {
+    // When shift is avail, and employee click on button 'yes I want this shift'...
+    @PostMapping("/text/{uuid}")
+    public String empAcceptedShift(@PathVariable String uuid) {
+        // find shift by uuid in text db
+        Optional<Text> maybeText = textSvc.findByUuid(uuid);
+        if (maybeText.isEmpty()) {
+            return "Invalid uuid in URL!";
+        }
 
         // add this employee to that shift
+        Text foundText = maybeText.get();
+        Employee employee = foundText.getEmployee();
+        Shift shift = foundText.getShift();
+        shiftSvc.addEmployeeToShift(employee, shift);
 
         // find all other data rows in texts db that share a shift-obj with this one, and delete them all
+        String report = textSvc.deleteAllTextsOfSameShift(shift);
 
-        return "EMPLOYEE is accetping the shift.  working on it!!";
+        return report;
     }
 }
 

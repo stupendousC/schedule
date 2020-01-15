@@ -29,10 +29,6 @@ public class TextSvc {
 
     public Optional<Text> findById(long id) { return textRepository.findById(id); }
 
-
-
-
-
     public Optional<Text> findByUuid(String uuid) {
         List<Text> allTexts = findAll();
 
@@ -41,7 +37,6 @@ public class TextSvc {
                 return Optional.of(text);
             }
         }
-
         return Optional.empty();
     }
 
@@ -49,15 +44,19 @@ public class TextSvc {
         textRepository.deleteById(id);
     }
 
+
+
+
     // When someone accepts a shift, then all texts sharing same shift gets deleted
-    public void deleteAllTextsOfSameShift(long shift_id) {
+    public String deleteAllTextsOfSameShift(Shift shift) {
         List<Text> allTexts = findAll();
 
         for ( Text text: allTexts) {
-            if (text.getShift().getId() == shift_id) {
+            if (text.getShift() == shift) {
                 textRepository.deleteById(text.getId());
             }
         }
+        return "DELETED all text data rows re: shift id #" + shift.getId();
     }
 
 }
