@@ -2,10 +2,12 @@ package com.schedule.schedule.controller;
 
 import com.schedule.schedule.model.*;
 import com.schedule.schedule.service.*;
+import com.schedule.schedule.twilio.SmsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,8 +16,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class AdminCtrller {
 
     @Autowired
@@ -28,6 +30,10 @@ public class AdminCtrller {
     private ShiftSvc shiftSvc;
     @Autowired
     private UnavailSvc unavailSvc;
+    @Autowired
+    private TwilioSvc twilioSvc;
+    @Autowired
+    private TextSvc textSvc;
 
     ////////////// CRUD admins //////////////
     @GetMapping("/admins")
@@ -183,4 +189,28 @@ public class AdminCtrller {
         unavailSvc.deleteUnavail(id);
     }
     ////////////// end CRUD unavails //////////////
+
+
+
+    //////////////////TRIAL////////////////
+    ////////////// CRUD texts //////////////
+
+    @PostMapping("/sendText")
+    public String sendSms(@Valid @RequestBody SmsRequest smsRequest, @RequestBody Text text) {
+
+        System.out.println("\n\nadminCTRL received via /sendText..." + smsRequest.getPhoneNumber() + smsRequest.getMessage());
+        System.out.println("and hopefully new texts table row..." + text.getEmployee().getName() + text.getClient().getName() + text.getShift().getId() );
+
+        // first add the new data to texts table in db
+        textSvc.addNewText(text);
+
+
+        // then send text out, which will refer to the id of the text obj in the link url
+        twilioSvc.sendSms(smsRequest);
+        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
+    }
+
+
+
+
 }

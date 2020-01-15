@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/login")
-@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class LoginCtrller {
 
     @Autowired
