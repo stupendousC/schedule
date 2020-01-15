@@ -31,6 +31,20 @@ public class TextSvc {
 
 
 
+
+
+    public Optional<Text> findByUuid(String uuid) {
+        List<Text> allTexts = findAll();
+
+        for (Text text:allTexts) {
+            if (text.getUuid().equals(uuid)) {
+                return Optional.of(text);
+            }
+        }
+
+        return Optional.empty();
+    }
+
     public void deleteText(long id) {
         textRepository.deleteById(id);
     }
