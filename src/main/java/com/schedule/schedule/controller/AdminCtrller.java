@@ -195,20 +195,42 @@ public class AdminCtrller {
     //////////////////TRIAL////////////////
     ////////////// CRUD texts //////////////
 
-    @PostMapping("/sendText")
-    public String sendSms(@Valid @RequestBody SmsRequest smsRequest, @RequestBody Text text) {
 
-        System.out.println("\n\nadminCTRL received via /sendText..." + smsRequest.getPhoneNumber() + smsRequest.getMessage());
-        System.out.println("and hopefully new texts table row..." + text.getEmployee().getName() + text.getClient().getName() + text.getShift().getId() );
+    @PostMapping("/sendText")
+    public String saveAndSendText(@RequestBody TextSmsCombo textSmsCombo) {
+
+        System.out.println("\n\nAdminCtrller received megaCombo of...");
+        System.out.println("phoneNum " + textSmsCombo.getPhoneNumber());
+        System.out.println("msg = " + textSmsCombo.getMessage());
+        System.out.println("id = " + textSmsCombo.getId());
+        System.out.println("client =" + textSmsCombo.getClient().getName());
+        System.out.println("employee =" + textSmsCombo.getEmployee().getName());
 
         // first add the new data to texts table in db
-        textSvc.addNewText(text);
-
-
-        // then send text out, which will refer to the id of the text obj in the link url
-        twilioSvc.sendSms(smsRequest);
-        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
+//        textSvc.addNewText(text);
+//
+//
+//        // then send text out, which will refer to the id of the text obj in the link url
+//        twilioSvc.sendSms(smsRequest);
+//        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
+        return "WORKING ON IT.  no text yet.";
     }
+
+
+
+/// FOR SAVEKEEPING
+//    @PostMapping("/sendText")
+//    public String sendSms(@Valid @RequestBody SmsRequest smsRequest) {
+//
+//        System.out.println("\n\nadminCTRL received via /sendText..." + smsRequest.getPhoneNumber() + smsRequest.getMessage());
+//
+//        // first add the new data to texts table in db
+//        // how?
+//
+//        // then send text out, which will refer to the id of the text obj in the link url
+//        twilioSvc.sendSms(smsRequest);
+//        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
+//    }
 
 
 
