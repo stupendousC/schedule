@@ -53,12 +53,12 @@ public class TextCtrller {
 
     // When shift is avail, and employee click on button 'yes I want this shift'...
     @PostMapping("/text/{uuid}")
-    public String empAcceptedShift(@PathVariable String uuid) {
+    public Boolean empAcceptedShift(@PathVariable String uuid) {
         // find shift by uuid in text db
         Optional<Text> maybeText = textSvc.findByUuid(uuid);
-        if (maybeText.isEmpty()) {
-            return "Invalid uuid in URL!";
-        }
+
+        // race condition -> shift is no longer available
+        if (maybeText.isEmpty()) return false;
 
         // add this employee to that shift
         Text foundText = maybeText.get();
@@ -67,9 +67,9 @@ public class TextCtrller {
         shiftSvc.addEmployeeToShift(employee, shift);
 
         // find all other data rows in texts db that share a shift-obj with this one, and delete them all
-        String report = textSvc.deleteAllTextsOfSameShift(shift);
+        textSvc.deleteAllTextsOfSameShift(shift);
 
-        return report;
+        return true;
     }
 }
 
