@@ -88,7 +88,7 @@ public class EmployeeSvc {
 
         // find the shift obj based on shiftId
         Optional<Shift> optionalShift = shiftSvc.findById(shiftId);
-        if (optionalShift.isEmpty()) return new ArrayList<>();
+        if (!optionalShift.isPresent()) return new ArrayList<>();
         // if shift exists, extract Shift obj out of the Optional via .get()
         Shift shift = optionalShift.get();
         LocalDate targetDate = shift.getShift_date();

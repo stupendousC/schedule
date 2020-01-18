@@ -48,7 +48,7 @@ public class UnavailSvc {
     public Optional<List<Unavail>> getUnavailsByEmpId(long id) {
         // admin & employee do NOT need the ones in the past
         Optional<List<Unavail>> allUnexpiredUnavailsOpt = findAllUnexpired();
-        if (allUnexpiredUnavailsOpt.isEmpty()) return Optional.empty();
+        if (!allUnexpiredUnavailsOpt.isPresent()) return Optional.empty();
 
         List<Unavail> unavailsOfEmp = allUnexpiredUnavailsOpt.get().stream()
                 .filter(unavail -> unavail.getEmployee_id() == id)
@@ -60,8 +60,7 @@ public class UnavailSvc {
     public Optional<List<Unavail>> getUnavailsByDate(LocalDate date) {
         List<Unavail> allUnavails = findAll();
         List<Unavail> unavailsOfDate = allUnavails.stream()
-                .filter(unavail -> {
-                    return unavail.getDay_off().equals(date); })
+                .filter(unavail -> unavail.getDay_off().equals(date))
                 .collect(Collectors.toList());
         return Optional.of(unavailsOfDate);
     }

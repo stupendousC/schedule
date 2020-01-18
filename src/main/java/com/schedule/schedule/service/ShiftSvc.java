@@ -57,7 +57,7 @@ public class ShiftSvc {
 
     public Optional<List<Shift>> findAllStaffedShiftsOnDate( LocalDate date) {
         Optional<List<Shift>> allStaffedShiftsOptional = findAllStaffedShifts();
-        if (allStaffedShiftsOptional.isEmpty()) { return Optional.empty(); }
+        if (!allStaffedShiftsOptional.isPresent()) { return Optional.empty(); }
 
         List<Shift> allStaffedShifts = allStaffedShiftsOptional.get();
         List<Shift> allStaffedShiftsOnDate = allStaffedShifts.stream()
@@ -80,7 +80,7 @@ public class ShiftSvc {
     public Optional<Shift> getUnstaffedShiftById(long id) {
         // first make sure the shiftId really is an unexpired & unstaffed shift
         Optional<List<Shift>> allUnexpiredUnstaffedShiftsOpt = findAllUnexpiredUnstaffedShifts();
-        if (allUnexpiredUnstaffedShiftsOpt.isEmpty()) { return Optional.empty(); }
+        if (!allUnexpiredUnstaffedShiftsOpt.isPresent()) { return Optional.empty(); }
 
         List<Shift> allUnexpiredUnstaffedShifts = allUnexpiredUnstaffedShiftsOpt.get();
 
@@ -88,14 +88,17 @@ public class ShiftSvc {
                 .filter(shift -> id == shift.getId())
                 .findFirst();
 
-        System.out.println("\n\nFOUND" + selectedShift.get().getId());
-        return selectedShift;
+        if (selectedShift.isPresent()) {
+            return selectedShift;
+        } else {
+            return Optional.empty();
+        }
     }
 
     public Optional<List<Shift>> getShiftsByEmpId(long id) {
 
         Optional<List<Shift>> allStaffedShifts = findAllStaffedShifts();
-        if (allStaffedShifts.isEmpty()) return Optional.empty();
+        if (!allStaffedShifts.isPresent()) return Optional.empty();
 
         List<Shift> empShifts = allStaffedShifts.get().stream()
                 .filter(shift -> (shift.getEmployee().getId() == id))
@@ -125,7 +128,7 @@ public class ShiftSvc {
         Optional<Employee> foundEmployee = employeeSvc.getEmployeeById(employeeId);
 
         // if bogus shiftId or employeeId, return empty unsaved shift
-        if (foundShift.isEmpty() || foundEmployee.isEmpty()) return Optional.empty();
+        if (!foundShift.isPresent() || !foundEmployee.isPresent()) return Optional.empty();
         // else, extract the actual objects out from Optionals
         Shift shift = foundShift.get();
         Employee employee = foundEmployee.get();

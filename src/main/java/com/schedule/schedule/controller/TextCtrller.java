@@ -42,6 +42,7 @@ public class TextCtrller {
 
         Optional<Text> maybeText = textSvc.findByUuid(uuid);
         if (maybeText.isPresent()) {
+            System.out.println("SHOWING "+maybeText.get().getClient().getName());
             // employee can get the shift info & confirmation button to display on front end
             return Optional.of(maybeText.get().getShift());
         } else {
@@ -58,7 +59,7 @@ public class TextCtrller {
         Optional<Text> maybeText = textSvc.findByUuid(uuid);
 
         // race condition -> shift is no longer available
-        if (maybeText.isEmpty()) return false;
+        if (!maybeText.isPresent()) return false;
 
         // add this employee to that shift
         Text foundText = maybeText.get();
