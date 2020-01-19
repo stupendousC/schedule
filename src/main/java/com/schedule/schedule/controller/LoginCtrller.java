@@ -46,4 +46,10 @@ public class LoginCtrller {
         // googleId does not match anyone in db
         return responseData;
     }
+
+    @PostMapping("/{googleId}")
+    public void loginFromGoogleWithUuid(@PathVariable String googleId, @RequestBody Employee employee) {
+        System.out.println("\nLOGGING IN with googleId = " + googleId + " and uuid = " + employee.getUuid());
+        System.out.println("back end will look you up...");
+    }
 }
