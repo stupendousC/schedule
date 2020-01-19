@@ -42,7 +42,13 @@ public class EmployeeSvc {
     public Optional<Employee> findByUuid(String uuid) {
         List<Employee> allActives = findAllActives();
 
+
+
         for (Employee person : allActives) {
+
+            System.out.println("looking at "+ person.getOauthid().length());
+            System.out.println(person.getUuid() + "->" + (person.getUuid().equals(uuid)));
+
             if (person.getOauthid().length() == 0 && person.getUuid().equals(uuid)) {
                 return Optional.of(person);
             }

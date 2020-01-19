@@ -54,8 +54,6 @@ public class LoginSvc {
         // returns either a Map<"ADMIN/EMPLOYEE", Admin/Employee obj> or Map<"INVALID UUID", empty Employee obj>
         HashMap<String, Object> responseData = new HashMap<>();
 
-        System.out.println("loginSvc looking for uuid="+uuid+" and googleId="+googleId);
-
         // search admins table for matching uuid
         Optional<Admin> maybeAdmin = adminSvc.findByUuid(uuid);
         if (maybeAdmin.isPresent()) {
@@ -64,21 +62,17 @@ public class LoginSvc {
             admin.setOauthid(googleId);
             adminRepository.save(admin);
 
-            System.out.println("FOUND ADMIN "+ admin.getName());
-
             responseData.put("ADMIN", admin);
             return responseData;
         }
 
         // search employees table for matching googleId
-        Optional<Employee> maybeEmployee = employeeSvc.findByGoogleId(googleId);
+        Optional<Employee> maybeEmployee = employeeSvc.findByUuid(uuid);
         if (maybeEmployee.isPresent()) {
             // save googleId if found, then return newly updated person
             Employee employee = maybeEmployee.get();
             employee.setOauthid(googleId);
             employeeRepository.save(employee);
-
-            System.out.println("FOUND EMP "+ employee.getName());
 
             responseData.put("EMPLOYEE", employee);
             return responseData;
