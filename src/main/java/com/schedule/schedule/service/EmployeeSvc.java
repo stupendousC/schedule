@@ -2,6 +2,7 @@ package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.EmployeeRepository;
 import com.schedule.schedule.dao.ShiftRepository;
+import com.schedule.schedule.model.Admin;
 import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
 import com.schedule.schedule.model.Unavail;
@@ -32,6 +33,17 @@ public class EmployeeSvc {
 
         for (Employee person : allActives) {
             if (person.getOauthid() != null && person.getOauthid().equals(googleId)) {
+                return Optional.of(person);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Employee> findByUuid(String uuid) {
+        List<Employee> allActives = findAllActives();
+
+        for (Employee person : allActives) {
+            if (person.getOauthid().length() == 0 && person.getUuid().equals(uuid)) {
                 return Optional.of(person);
             }
         }

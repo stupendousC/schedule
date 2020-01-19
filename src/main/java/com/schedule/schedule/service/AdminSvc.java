@@ -29,6 +29,18 @@ public class AdminSvc extends Person {
         return Optional.empty();
     }
 
+    public Optional<Admin> findByUuid(String uuid) {
+        List<Admin> allActives = findAllActives();
+
+        for (Admin person : allActives) {
+
+            if (person.getOauthid().length() == 0 && person.getUuid().equals(uuid)) {
+                return Optional.of(person);
+            }
+        }
+        return Optional.empty();
+    }
+
     public List<Admin> findAllActives() {
 //        System.out.println("\nAdminSvc -> AdminRepository, which has #" + adminRepository.count() + "admin people total, both active & not");
 
