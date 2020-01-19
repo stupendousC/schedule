@@ -9,14 +9,16 @@ public class Client {
     @SequenceGenerator(name="clients_id_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="clients_id_seq")
     private long id;
+    private String uuid;
     private String name;
     private String phone;
     private String email;
     private String address;
     private Boolean active;
 
-    public Client(String name, String phone, String email, String address, Boolean active) {
+    public Client(String name, String uuid, String phone, String email, String address, Boolean active) {
         this.name = name;
+        this.uuid = uuid;
         this.phone = phone;
         this.email = email;
         this.address = address;
@@ -30,6 +32,10 @@ public class Client {
 
     public long getId() {
         return id;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public Boolean getActive() {

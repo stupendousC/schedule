@@ -10,15 +10,17 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="admins_id_seq")
     private long id;
     private String oauthid;
+    private String uuid;
     private String name;
     private String phone;
     private String email;
     private String address;
     private Boolean active;
 
-    public Admin(String oauthid, String name, String phone, String email, String address, Boolean active) {
+    public Admin(String oauthid, String uuid, String name, String phone, String email, String address, Boolean active) {
         // used when receiving data from user input, to save to the admins table in postgres
         this.oauthid = oauthid;
+        this.uuid = uuid;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -37,6 +39,10 @@ public class Admin {
 
     public long getId() {
         return id;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public Boolean getActive() {
