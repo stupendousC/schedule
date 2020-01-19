@@ -139,12 +139,12 @@ public class ShiftSvc {
 
     public Optional<Shift> addEmployeeToShift(Employee employee, Shift shift) {
         // ONLY allow setting if shift doesn't already have an employee!
-        System.out.println("\nshift.getEmployee() = "+shift.getEmployee() +" is it null? " + (shift.getEmployee() == null));
+//        System.out.println("\nshift.getEmployee() = "+shift.getEmployee() +" is it null? " + (shift.getEmployee() == null));
         if (shift.getEmployee() == null) {
             shift.setEmployee(employee);
             return Optional.of(shiftRepository.save(shift));
         } else {
-            System.out.println("this shift is already taken by " + shift.getEmployee().getName());
+//            System.out.println("this shift is already taken by " + shift.getEmployee().getName());
             return Optional.empty();
         }
     }

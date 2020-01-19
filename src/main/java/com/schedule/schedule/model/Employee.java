@@ -17,27 +17,13 @@ public class Employee {
     private String email;
     private Boolean active;
 
-
-    /////// TEST
-//    @OneToMany (mappedBy="employee")
-//    private Set<Unavail> unavails;
-//
-//
-//    // from @OneToMany (employee -> unavails)
-//    public Set<Unavail> getUnavails() {
-//        return unavails;
-//    }
-    /////// TEST
-
-
-
     public Employee(String oauthid, String name, String address, String phone, String email, Boolean active) {
         this.oauthid = oauthid;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.email = email;
-        this.active = active;
+        this.active = true;
     }
 
     public Employee() {}

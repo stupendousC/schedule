@@ -31,7 +31,7 @@ public class EmployeeSvc {
         List<Employee> allActives = findAllActives();
 
         for (Employee person : allActives) {
-            if (person.getOauthid().equals(googleId)) {
+            if (person.getOauthid() != null && person.getOauthid().equals(googleId)) {
                 return Optional.of(person);
             }
         }
@@ -49,7 +49,7 @@ public class EmployeeSvc {
     }
 
     public Employee addNewEmployee(Employee employee) {
-        // TODO: validate phone number!!!  FOR ALL PEOPLES!!!
+        // Validation for phone number done on front end
 
         return employeeRepository.save(employee);
     }
@@ -60,8 +60,7 @@ public class EmployeeSvc {
 
     public Optional<Employee> updateEmployee(long id, Employee newInfoEmployee) {
         Optional<Employee> employeeMaybe = employeeRepository.findById(id);
-
-        // TODO: validate phone number!!!! FOR ALL PEOPLES!!!
+        // validation for phone number done on front end
 
         employeeMaybe.ifPresent( user -> {
             user.setAddress(newInfoEmployee.getAddress());

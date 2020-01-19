@@ -22,9 +22,7 @@ public class AdminSvc extends Person {
         List<Admin> allActives = findAllActives();
 
         for (Admin person : allActives) {
-//            System.out.println("looking at admin: " + person.getName());
-            if (person.getOauthid().equals(googleId)) {
-//                System.out.println("FOUND!");
+            if (person.getOauthid() != null && person.getOauthid().equals(googleId)) {
                 return Optional.of(person);
             }
         }
@@ -32,7 +30,7 @@ public class AdminSvc extends Person {
     }
 
     public List<Admin> findAllActives() {
-        System.out.println("\nAdminSvc -> AdminRepository, which has #" + adminRepository.count() + "admin people total, both active & not");
+//        System.out.println("\nAdminSvc -> AdminRepository, which has #" + adminRepository.count() + "admin people total, both active & not");
 
         Iterable<Admin> allAdmin = adminRepository.findAll();
         List<Admin> allAdminList = (List<Admin>) allAdmin;
@@ -46,7 +44,7 @@ public class AdminSvc extends Person {
 
 
     public Admin addNewAdmin(Admin admin) {
-        System.out.println("AdminSvc received new admin " + admin.getName());
+//        System.out.println("AdminSvc received new admin " + admin.getName() + "active = " + admin.getActive());
         return adminRepository.save(admin);
     }
 

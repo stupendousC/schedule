@@ -20,7 +20,7 @@ public class Client {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.active = active;
+        this.active = true;
     }
 
     public Client() {
