@@ -13,7 +13,7 @@ public class ScheduleApplication {
         Logger logger = LoggerFactory.getLogger(ScheduleApplication.class);
 
 
-        logger.info("\ncan i see my env't variables fro AWS?");
+        logger.info("\ncan i see my env't variables from AWS?");
         logger.info(System.getenv("RDS_HOSTNAME"));
         logger.info(System.getenv("RDS_DB_NAME"));
         logger.info(System.getenv("RDS_PORT"));
