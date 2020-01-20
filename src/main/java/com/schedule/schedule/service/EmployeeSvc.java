@@ -2,6 +2,7 @@ package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.EmployeeRepository;
 import com.schedule.schedule.dao.ShiftRepository;
+import com.schedule.schedule.model.Admin;
 import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
 import com.schedule.schedule.model.Unavail;
@@ -31,7 +32,24 @@ public class EmployeeSvc {
         List<Employee> allActives = findAllActives();
 
         for (Employee person : allActives) {
-            if (person.getOauthid().equals(googleId)) {
+            if (person.getOauthid() != null && person.getOauthid().equals(googleId)) {
+                return Optional.of(person);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Employee> findByUuid(String uuid) {
+        List<Employee> allActives = findAllActives();
+
+
+
+        for (Employee person : allActives) {
+
+            System.out.println("looking at "+ person.getOauthid().length());
+            System.out.println(person.getUuid() + "->" + (person.getUuid().equals(uuid)));
+
+            if (person.getOauthid().length() == 0 && person.getUuid().equals(uuid)) {
                 return Optional.of(person);
             }
         }
@@ -49,7 +67,7 @@ public class EmployeeSvc {
     }
 
     public Employee addNewEmployee(Employee employee) {
-        // TODO: validate phone number!!!  FOR ALL PEOPLES!!!
+        // Validation for phone number done on front end
 
         return employeeRepository.save(employee);
     }
@@ -60,8 +78,7 @@ public class EmployeeSvc {
 
     public Optional<Employee> updateEmployee(long id, Employee newInfoEmployee) {
         Optional<Employee> employeeMaybe = employeeRepository.findById(id);
-
-        // TODO: validate phone number!!!! FOR ALL PEOPLES!!!
+        // validation for phone number done on front end
 
         employeeMaybe.ifPresent( user -> {
             user.setAddress(newInfoEmployee.getAddress());

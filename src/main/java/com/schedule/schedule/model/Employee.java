@@ -11,33 +11,21 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="employees_id_seq")
     private long id;
     private String oauthid;
+    private String uuid;
     private String name;
     private String address;
     private String phone;
     private String email;
     private Boolean active;
 
-
-    /////// TEST
-//    @OneToMany (mappedBy="employee")
-//    private Set<Unavail> unavails;
-//
-//
-//    // from @OneToMany (employee -> unavails)
-//    public Set<Unavail> getUnavails() {
-//        return unavails;
-//    }
-    /////// TEST
-
-
-
-    public Employee(String oauthid, String name, String address, String phone, String email, Boolean active) {
+    public Employee(String oauthid, String uuid, String name, String address, String phone, String email, Boolean active) {
         this.oauthid = oauthid;
+        this.uuid = uuid;
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.email = email;
-        this.active = active;
+        this.active = true;
     }
 
     public Employee() {}
@@ -51,6 +39,10 @@ public class Employee {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 
     public String getName() {

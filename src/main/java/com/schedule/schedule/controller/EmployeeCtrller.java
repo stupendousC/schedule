@@ -31,7 +31,6 @@ public class EmployeeCtrller {
 
     @PutMapping("/{id}")
     public Optional<Employee> updateEmployeeById(@PathVariable long id, @RequestBody Employee employee) {
-        System.out.println("updating employee id="+id);
         return employeeSvc.updateEmployee(id, employee);
     }
 
@@ -43,7 +42,6 @@ public class EmployeeCtrller {
 
     @PostMapping("/{id}/unavails")
     public Unavail postUnavail(@PathVariable long id, @RequestBody Unavail unavail) {
-        System.out.println("CTRL sees u wanting to add... " + unavail.getDay_off() + " for emp #" + id );
 
         Optional<Employee> employeeMaybe = getEmployeeById(id);
         if (employeeMaybe.isPresent()) {
@@ -80,9 +78,7 @@ public class EmployeeCtrller {
     }
 
     @GetMapping("/{id}/unstaffedShifts/{shiftId}")
-    // I *was* going to make this the text response
     public Optional<Shift> getAllUnstaffedShifts(@PathVariable long id, @PathVariable long shiftId) {
-        System.out.println("empCtrller passing to Shift svc to find unstaffed shift Id #" + shiftId );
         return shiftSvc.getUnstaffedShiftById(shiftId);
     }
 }
