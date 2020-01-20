@@ -38,6 +38,20 @@ public class UnavailSvc {
 
     public Unavail addNewUnavail(Unavail unavail) {
 //        System.out.println("SVC sees u want to add... day_off" + unavail.getDay_off() + " for " + unavail.getEmployee().getName());
+        // don't add new entry if one already exists for same person & same date, return empty Unavail obj instead
+        Employee employee = unavail.getEmployee();
+
+        Optional<List<Unavail>> allEmpsCurrUnavailsMaybe = getUnavailsByEmpId(employee.getId());
+        if (allEmpsCurrUnavailsMaybe.isPresent()) {
+            List<Unavail> allEmpUnavails = allEmpsCurrUnavailsMaybe.get();
+            for (Unavail existingUnavail : allEmpUnavails) {
+                if (existingUnavail.getDay_off().equals(unavail.getDay_off())) {
+                    System.out.println("you already have that day off");
+                    return new Unavail();
+                }
+            }
+        }
+
         return unavailRepository.save(unavail);
     }
 
