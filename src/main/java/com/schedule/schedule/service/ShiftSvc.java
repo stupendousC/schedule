@@ -1,7 +1,6 @@
 package com.schedule.schedule.service;
 
 import com.schedule.schedule.dao.ShiftRepository;
-import com.schedule.schedule.model.Client;
 import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
 import com.schedule.schedule.model.Unavail;
@@ -23,9 +22,9 @@ public class ShiftSvc {
     @Autowired
     private EmployeeSvc employeeSvc;
     @Autowired
-    private ClientSvc clientSvc;
-    @Autowired
     private UnavailSvc unavailSvc;
+    @Autowired
+    private TextSvc textSvc;
 
 
     public List<Shift> findAll() {
@@ -98,11 +97,7 @@ public class ShiftSvc {
                 .filter(shift -> id == shift.getId())
                 .findFirst();
 
-        if (selectedShift.isPresent()) {
-            return selectedShift;
-        } else {
-            return Optional.empty();
-        }
+        return selectedShift;
     }
 
     public Optional<List<Shift>> getShiftsByEmpId(long id) {
@@ -174,6 +169,10 @@ public class ShiftSvc {
         }
 
         // Can assign employee to shift if none of the forbidden conditions have been met by now,
+
+        // also need to delete ALL texts in db that is related to this shift object, otherwise others will try to take it
+        textSvc.deleteAllTextsOfSameShift(shift);
+
         return addEmployeeToShift(employee, shift);
     }
 
