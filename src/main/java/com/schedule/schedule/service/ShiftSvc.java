@@ -144,7 +144,6 @@ public class ShiftSvc {
         Employee employee = foundEmployee.get();
 
         // if employee is supposed to be off on that day, return Optional.empty()
-        System.out.println("checking if EMP off that day");
         Optional<List<Unavail>> currEmpUnavailsMaybe= unavailSvc.getUnavailsByEmpId(employeeId);
         if (currEmpUnavailsMaybe.isPresent()) {
             List<Unavail> currEmpUnavails = currEmpUnavailsMaybe.get();
@@ -156,7 +155,6 @@ public class ShiftSvc {
         }
 
         // if employee already has a shift on that day that overlaps with this new shift, return Optional.empty()
-        System.out.println("cheking if EMP has a clashing shift");
         long acceptable_overlap_minutes = 60;       // arbitrarily set as 60 min acceptable overlap
 
         Optional<List<Shift>> employeeShiftsMaybe = getShiftsByEmpId(employeeId);
@@ -175,7 +173,6 @@ public class ShiftSvc {
             }
         }
 
-        System.out.println("SAFE!");
         // Can assign employee to shift if none of the forbidden conditions have been met by now,
         return addEmployeeToShift(employee, shift);
     }
