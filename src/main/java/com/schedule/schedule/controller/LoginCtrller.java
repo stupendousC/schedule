@@ -30,25 +30,6 @@ public class LoginCtrller {
     public HashMap<String, Object> loginFromGoogle(@PathVariable String googleId) {
 //        System.out.println("\nLoginCtrller rec'd request from googleId " + googleId);
         return loginSvc.loginFromGoogle(googleId);
-
-//        HashMap<String, Object> responseData = new HashMap<>();
-//
-//        // search admins table for matching googleId
-//        Optional<Admin> maybeAdmin = adminSvc.findByGoogleId(googleId);
-//        if (maybeAdmin.isPresent()) {
-//            responseData.put("ADMIN", maybeAdmin.get());
-//            return responseData;
-//        }
-//
-//        // search employees table for matching googleId
-//        Optional<Employee> maybeEmployee = employeeSvc.findByGoogleId(googleId);
-//        if (maybeEmployee.isPresent()) {
-//            responseData.put("EMPLOYEE", maybeEmployee.get());
-//            return responseData;
-//        }
-//
-//        // googleId does not match anyone in db
-//        return responseData;
     }
 
     @PostMapping("/{googleId}")

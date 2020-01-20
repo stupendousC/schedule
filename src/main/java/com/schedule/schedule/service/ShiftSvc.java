@@ -4,6 +4,7 @@ import com.schedule.schedule.dao.ShiftRepository;
 import com.schedule.schedule.model.Client;
 import com.schedule.schedule.model.Employee;
 import com.schedule.schedule.model.Shift;
+import com.schedule.schedule.model.Unavail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,11 @@ public class ShiftSvc {
     private ShiftRepository shiftRepository;
     @Autowired
     private EmployeeSvc employeeSvc;
-    @Autowired ClientSvc clientSvc;
+    @Autowired
+    private ClientSvc clientSvc;
+    @Autowired
+    private UnavailSvc unavailSvc;
+
 
     public List<Shift> findAll() {
         return (List<Shift>) shiftRepository.findAll();
@@ -70,7 +75,12 @@ public class ShiftSvc {
     public Optional<Shift> findById(long id) { return shiftRepository.findById(id); }
 
     public Shift addNewShift(Shift shift) {
-        return shiftRepository.save(shift);
+        // end time cannot be before start time
+        if (shift.getStart_time().isBefore(shift.getEnd_time())) {
+            return shiftRepository.save(shift);
+        } else {
+            return new Shift();
+        }
     }
 
     public Optional<Shift> getShiftById(long id) {
@@ -127,12 +137,46 @@ public class ShiftSvc {
         Optional<Shift> foundShift = findById(shiftId);
         Optional<Employee> foundEmployee = employeeSvc.getEmployeeById(employeeId);
 
-        // if bogus shiftId or employeeId, return empty unsaved shift
+        // if bogus shiftId or employeeId, return Optional.empty()
         if (!foundShift.isPresent() || !foundEmployee.isPresent()) return Optional.empty();
         // else, extract the actual objects out from Optionals
         Shift shift = foundShift.get();
         Employee employee = foundEmployee.get();
 
+        // if employee is supposed to be off on that day, return Optional.empty()
+        System.out.println("checking if EMP off that day");
+        Optional<List<Unavail>> currEmpUnavailsMaybe= unavailSvc.getUnavailsByEmpId(employeeId);
+        if (currEmpUnavailsMaybe.isPresent()) {
+            List<Unavail> currEmpUnavails = currEmpUnavailsMaybe.get();
+            for (Unavail unavail : currEmpUnavails) {
+                if (unavail.getDay_off().equals(shift.getShift_date())) {
+                    return Optional.empty();
+                }
+            }
+        }
+
+        // if employee already has a shift on that day that overlaps with this new shift, return Optional.empty()
+        System.out.println("cheking if EMP has a clashing shift");
+        long acceptable_overlap_minutes = 60;       // arbitrarily set as 60 min acceptable overlap
+
+        Optional<List<Shift>> employeeShiftsMaybe = getShiftsByEmpId(employeeId);
+        if (employeeShiftsMaybe.isPresent()) {
+            List<Shift> employeeShifts = employeeShiftsMaybe.get();
+            for ( Shift committedShift : employeeShifts) {
+                if (committedShift.getShift_date().equals(shift.getShift_date())) {
+                    // overlap1 is when new shift ends after committed shift starts
+                    Boolean overlap1 = committedShift.getStart_time().isBefore(shift.getEnd_time().plusMinutes(acceptable_overlap_minutes));
+                    // overlap2 is when new shift starts before committed shift ends
+                    Boolean overlap2 = committedShift.getEnd_time().isAfter(shift.getStart_time().minusMinutes(acceptable_overlap_minutes));
+                    if (overlap1 || overlap2) {
+                        return Optional.empty();
+                    }
+                }
+            }
+        }
+
+        System.out.println("SAFE!");
+        // Can assign employee to shift if none of the forbidden conditions have been met by now,
         return addEmployeeToShift(employee, shift);
     }
 
