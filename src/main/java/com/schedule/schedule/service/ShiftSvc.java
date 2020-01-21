@@ -149,8 +149,10 @@ public class ShiftSvc {
             }
         }
 
+        System.out.println("FOUND SHIFT & EMPLOYEE");
+
         // if employee already has a shift on that day that overlaps with this new shift, return Optional.empty()
-        long acceptable_overlap_minutes = 60;       // arbitrarily set as 60 min acceptable overlap
+        long acceptable_min_buffer_minutes = 60;       // arbitrarily set as 60 min acceptable overlap
 
         Optional<List<Shift>> employeeShiftsMaybe = getShiftsByEmpId(employeeId);
         if (employeeShiftsMaybe.isPresent()) {
@@ -158,9 +160,9 @@ public class ShiftSvc {
             for ( Shift committedShift : employeeShifts) {
                 if (committedShift.getShift_date().equals(shift.getShift_date())) {
                     // overlap1 is when new shift ends after committed shift starts
-                    Boolean overlap1 = committedShift.getStart_time().isBefore(shift.getEnd_time().plusMinutes(acceptable_overlap_minutes));
+                    Boolean overlap1 = committedShift.getStart_time().isBefore(shift.getEnd_time().plusMinutes(acceptable_min_buffer_minutes));
                     // overlap2 is when new shift starts before committed shift ends
-                    Boolean overlap2 = committedShift.getEnd_time().isAfter(shift.getStart_time().minusMinutes(acceptable_overlap_minutes));
+                    Boolean overlap2 = committedShift.getEnd_time().isAfter(shift.getStart_time().minusMinutes(acceptable_min_buffer_minutes));
                     if (overlap1 || overlap2) {
                         return Optional.empty();
                     }
@@ -173,6 +175,7 @@ public class ShiftSvc {
         // also need to delete ALL texts in db that is related to this shift object, otherwise others will try to take it
         textSvc.deleteAllTextsOfSameShift(shift);
 
+        System.out.println("ADDING EMP TO SHIFT");
         return addEmployeeToShift(employee, shift);
     }
 
@@ -182,9 +185,11 @@ public class ShiftSvc {
 //        System.out.println("\nshift.getEmployee() = "+shift.getEmployee() +" is it null? " + (shift.getEmployee() == null));
         if (shift.getEmployee() == null) {
             shift.setEmployee(employee);
+            System.out.println("SUCCESS");
             return Optional.of(shiftRepository.save(shift));
         } else {
 //            System.out.println("this shift is already taken by " + shift.getEmployee().getName());
+            System.out.println("NO!!");
             return Optional.empty();
         }
     }

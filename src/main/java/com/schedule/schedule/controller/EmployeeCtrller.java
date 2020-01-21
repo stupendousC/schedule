@@ -95,7 +95,7 @@ public class EmployeeCtrller {
             shiftSvc.addEmployeeToShiftFromIds(id, shiftId);
 
             // return employee's current list of shifts
-            return getAllShifts(id, headers);
+            return shiftSvc.getShiftsByEmpId(id);
         } else {
             return Optional.empty();
         }
