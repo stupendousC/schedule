@@ -3,6 +3,7 @@ package com.schedule.schedule.controller;
 import com.schedule.schedule.model.*;
 import com.schedule.schedule.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,15 @@ public class EmployeeCtrller {
     private ShiftSvc shiftSvc;
     @Autowired
     private UnavailSvc unavailSvc;
+
+    // RUN THIS BEFORE EVERY API ENDPOINT
+    public boolean verifyActiveEmployee(HttpHeaders headers) {
+        if (headers.get("googleId") == null) return false;
+        String googleId = headers.get("googleId").get(0);
+        Optional<Employee> foundActiveEmployee = employeeSvc.findByGoogleId(googleId);
+        return (foundActiveEmployee.isPresent() ? true : false);
+    }
+
 
     // Not all CRUD actions are available to Employee due to business needs
 

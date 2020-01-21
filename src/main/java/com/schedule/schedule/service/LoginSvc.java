@@ -6,8 +6,6 @@ import com.schedule.schedule.model.Admin;
 import com.schedule.schedule.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +25,6 @@ public class LoginSvc {
 
 
     public HashMap<String, Object> loginFromGoogle(String googleId) {
-//        System.out.println("\nLoginCtrller rec'd request from googleId " + googleId);
 
         HashMap<String, Object> responseData = new HashMap<>();
 
@@ -83,3 +80,27 @@ public class LoginSvc {
         return responseData;
     }
 }
+
+
+//    public HashMap<String, Object> loginFromGoogle(String googleId) {
+////        System.out.println("\nLoginCtrller rec'd request from googleId " + googleId);
+//
+//        HashMap<String, Object> responseData = new HashMap<>();
+//
+//        // search admins table for matching googleId
+//        Optional<Admin> maybeAdmin = adminSvc.findByGoogleId(googleId);
+//        if (maybeAdmin.isPresent()) {
+//            responseData.put("ADMIN", maybeAdmin.get());
+//            return responseData;
+//        }
+//
+//        // search employees table for matching googleId
+//        Optional<Employee> maybeEmployee = employeeSvc.findByGoogleId(googleId);
+//        if (maybeEmployee.isPresent()) {
+//            responseData.put("EMPLOYEE", maybeEmployee.get());
+//            return responseData;
+//        }
+//
+//        // googleId does not match anyone in db
+//        return responseData;
+//    }
