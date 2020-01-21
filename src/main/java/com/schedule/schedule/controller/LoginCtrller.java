@@ -28,17 +28,10 @@ public class LoginCtrller {
 
     @PostMapping()
     public HashMap<String, Object> loginFromGoogle(@RequestBody LoginParams loginParams, @RequestHeader HttpHeaders headers) {
-        // AUTHENTICATE ACCESS TOKEN HERE!!!!
-
-        System.out.println("LOGGING IN: ");
-        System.out.println(loginParams.getGoogleId());
-        System.out.println(loginParams.getGoogleAccessToken());
-
+        // FUTURE TODO: AUTHENTICATE ACCESS TOKEN HERE!!!!
 
         String googleId = headers.get("googleId").get(0);
         String googleAccessToken = headers.get("googleAccessToken").get(0);
-        System.out.println("HEADERS: googleId = " + googleId + " googleAccessToken = " + googleAccessToken);
-
 
         return loginSvc.loginFromGoogle(loginParams.getGoogleId());
     }
@@ -47,8 +40,6 @@ public class LoginCtrller {
     public Map<String, Object> loginFromGoogleWithUuid(@RequestBody LoginParams loginParams) {
         String googleId = loginParams.getGoogleId();
         String uuid = loginParams.getUuid();
-
-        System.out.println("FIRST TIME: " + loginParams.getGoogleId() + " AND " + loginParams.getUuid());
 
         return loginSvc.loginFromGoogleWithUuid(googleId, uuid);
     }
