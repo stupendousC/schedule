@@ -35,6 +35,7 @@ public class AdminSvc extends Person {
         for (Admin person : allActives) {
 
             if (person.getOauthid().length() == 0 && person.getUuid().equals(uuid)) {
+                System.out.println("found ADMIN " + person.getName());
                 return Optional.of(person);
             }
         }

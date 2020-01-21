@@ -26,16 +26,24 @@ public class LoginCtrller {
     @Autowired
     private LoginSvc loginSvc;
 
-    @GetMapping("/{googleId}")
-    public HashMap<String, Object> loginFromGoogle(@PathVariable String googleId) {
-//        System.out.println("\nLoginCtrller rec'd request from googleId " + googleId);
-        return loginSvc.loginFromGoogle(googleId);
+    @PostMapping()
+    public HashMap<String, Object> loginFromGoogle(@RequestBody LoginParams loginParams) {
+        // AUTHENTICATE ACCESS TOKEN HERE!!!!
+
+        System.out.println("LOGGING IN: ");
+        System.out.println(loginParams.getGoogleId());
+        System.out.println(loginParams.getGoogleAccessToken());
+
+        return loginSvc.loginFromGoogle(loginParams.getGoogleId());
     }
 
-    @PostMapping("/{googleId}")
-    public Map<String, Object> loginFromGoogleWithUuid(@PathVariable String googleId, @RequestBody Employee employee) {
-        // The request body is NOT an actual Employee, I just needed an empty person to attach a uuid to in the requestBody
-        String uuid = employee.getUuid();
+    @PostMapping("/firstTime")
+    public Map<String, Object> loginFromGoogleWithUuid(@RequestBody LoginParams loginParams) {
+        String googleId = loginParams.getGoogleId();
+        String uuid = loginParams.getUuid();
+
+        System.out.println("FIRST TIME: " + loginParams.getGoogleId() + " AND " + loginParams.getUuid());
+
         return loginSvc.loginFromGoogleWithUuid(googleId, uuid);
     }
 }
