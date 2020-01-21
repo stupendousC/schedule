@@ -3,6 +3,7 @@ package com.schedule.schedule.controller;
 import com.schedule.schedule.model.*;
 import com.schedule.schedule.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,17 +23,15 @@ public class LoginCtrller {
     private AdminSvc adminSvc;
     @Autowired
     private EmployeeSvc employeeSvc;
-
     @Autowired
     private LoginSvc loginSvc;
 
     @PostMapping()
-    public HashMap<String, Object> loginFromGoogle(@RequestBody LoginParams loginParams) {
-        // AUTHENTICATE ACCESS TOKEN HERE!!!!
+    public HashMap<String, Object> loginFromGoogle(@RequestBody LoginParams loginParams, @RequestHeader HttpHeaders headers) {
+        // FUTURE TODO: AUTHENTICATE ACCESS TOKEN HERE!!!!
 
-        System.out.println("LOGGING IN: ");
-        System.out.println(loginParams.getGoogleId());
-        System.out.println(loginParams.getGoogleAccessToken());
+        String googleId = headers.get("googleId").get(0);
+        String googleAccessToken = headers.get("googleAccessToken").get(0);
 
         return loginSvc.loginFromGoogle(loginParams.getGoogleId());
     }
@@ -41,8 +40,6 @@ public class LoginCtrller {
     public Map<String, Object> loginFromGoogleWithUuid(@RequestBody LoginParams loginParams) {
         String googleId = loginParams.getGoogleId();
         String uuid = loginParams.getUuid();
-
-        System.out.println("FIRST TIME: " + loginParams.getGoogleId() + " AND " + loginParams.getUuid());
 
         return loginSvc.loginFromGoogleWithUuid(googleId, uuid);
     }
