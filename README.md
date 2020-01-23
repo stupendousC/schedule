@@ -9,27 +9,9 @@ The back end is written in Java using the Spring Boot framework, plus PostgreSQL
 
 ***
 
-## WHAT DOES SCHEDULE PLUS PLUS DO?
-
-This website is inspired by my time working at a temp staffing agency.  Whenever a client contacts the agency requesting someone to work a shift, the office would consult the master calendar and start calling employees one by one until they get a 'yes'.  Yes they do text and email too, but the nature of a temp staffing agency sometimes does necessitate urgent responses and that's why phone calls are a big part of their daily workload.
-
-I myself was an employee, and if I'm further down the line, then I won't get a chance at these shifts if someone else got called first.  So coming from an employee's perspective, FOMO (Fear of Missing Out) does plague me especially since my last name starts with W.
-
-What about for the people at the office?  Surely they can automate some of their phone tasks and individual texts, thus free themselves up for other things.  
-
-1. If such an app exists, that would automatically generate a list of which employees are available, and texts them all for you, wouldn't that be great?  
-
-2. Also, the employees can just grab the shifts on a first come first serve basis, that way they get an equal chance of work, wouldn't that be awesome too?  
-
-3. And what if, instead of employees individually emailing in their own availability schedules, they can just manage their own days on/off via their own employee dashboard, wouldn't that also be just wonderful?
-
-### YES, YES, and YES!   Says Schedule Plus Plus, and that is what I set out to do.
-
-***
-
 ## CAN I SEE A DEMO?  
 
-Well, this is the back end, so there really isn't much to see.  I'd really recommend you check out the [front end demos](https://github.com/stupendousC/schedulePlusPlus) instead.  
+Well, this is the back end, so there really isn't much to see, unless you just read the code.  I'd really recommend you check out the [front end demos](https://github.com/stupendousC/schedulePlusPlus) instead.  
 However, if you really want, you can still see what kind of [API endpoints](http://schedplusplusbackend.us-west-2.elasticbeanstalk.com/) I have available on the index.html, but if you just enter in the URL endpoint, you'll get either an empty list or null back as a response because you have to log in via front end first.  
 I have not fully implemented google access token authentication as of this writing on 1/22/2020, so that's going on my TODO wishlist...
 
@@ -39,18 +21,10 @@ I have not fully implemented google access token authentication as of this writi
 ### Requirements: 
 A. You need to sign up with Google OAuth via their Google API Console.  [Overview here](https://developers.google.com/identity/protocols/OAuth2)  
 B. You need a [Twilio](https://www.twilio.com/) account if you want to enable texting, which trust me, YOU DO.  
-C. You need some way of deploying it, I used [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/?nc2=type_a).  Or you can just use localhost:3000 for now.  
-D. You need a database, I chose postgreSQL, this will be part of Step C during the Elastic Beanstalk environment creation.  
-  ⋅⋅* Click 'Create New Application' in Elastic Beanstalk.
-  ⋅⋅* Choose 'Web Server Environment'.
-  ⋅⋅* Choose an available domain name.  Below that, choose preconfigured platform of 'java'.
-  ⋅⋅* Below that, choose 'upload your code', use the local file in your target folder, the <projectName>-SNAPSHOT.jar file that you created with Maven's install function, which I did in IntelliJ.
-  ⋅⋅* After a few seconds of uploading, click 'Configure more options'.
-  ⋅⋅* Click on 'Database', choose 'postgres' under engine.  Make up a username and password.  Click 'Save'.
-  ⋅⋅* See that 'Instances' option? We'll have to revisit that later.
-
-
-
+C. You need some way of deploying it, I used [AWS Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/?nc2=type_a), see Step 5 below.  Or you can just use localhost:3000 for now (you'd still need a database though).  
+D. You need a database, I chose postgreSQL, this will be part of Step 5 during the Elastic Beanstalk environment creation.
+E. You need an IDE if you want to work with the Java code.  I used IntelliJ.  
+  
 ### Download & Setup:
 1. In your terminal, git clone a copy from here.  
     `git clone https://github.com/stupendousC/schedulePlusPlus.git`
@@ -62,20 +36,35 @@ D. You need a database, I chose postgreSQL, this will be part of Step C during t
   Choose 'edit configuration'.  
   You should be in the Configuration tab, look for Environment variables towards the middle, and cick on the little notepad looking icon on the far right.  
   A separate window pops up, and this is where you add the environment variables:  
-  ⋅⋅* RDS_HOSTNAME: <get this value from the URL endpoint of your database>
-  ⋅⋅* RDS_PORT: 5432
-  ⋅⋅* RDS_DB_NAME: <get this from your database>
-  ⋅⋅* RDS_USERNAME: <whatever you chose>
-  ⋅⋅* RDS_PASSWORD: <whatever you chose>
-  ⋅⋅* ACCOUNT_SID: <get from your Twilio console>
-  ⋅⋅* AUTH_TOKEN: <get from your Twilio console>
-  ⋅⋅* TRIAL_NUMBER: <get from your Twilio console>
-  ⋅⋅* CLIENT_ID: <get from your Google OAuth console>
+    * ACCOUNT_SID: {get from your Twilio console}
+    * AUTH_TOKEN: {get from your Twilio console}
+    * TRIAL_NUMBER: {get from your Twilio console}
+    * CLIENT_ID: {get from your Google OAuth console}
   
-4. To run it on your local machine.  
-  Click that little green triangle play button on the top right.  
+4. Get .jar file ready for deployment.  
+  On the far right of IntelliJ you should see a Maven option, click on that, and click on 'install' under the 'Lifecycle' folder.  
+  You should see the console below saying 'Build Successful'.  
+ 
+5. Now you want to Go back to AWS
+    * Click 'Create New Application' in Elastic Beanstalk.
+    * Choose 'Web Server Environment'.
+    * Choose an available domain name.  Below that, choose preconfigured platform of 'java'.
+    * Below that, choose 'upload your code', use the local file in your target folder, the <projectName>-SNAPSHOT.jar file that you created with Maven's install function, which I did in IntelliJ.
+    * After a few seconds of uploading, click 'Configure more options'.
+    * Click on 'Database', choose 'postgres' under engine.  Make up a username and password.  Click 'Save'.
+
+6. Click 'Create Environment' and go for a walk, this step took ~10 minutes the first time.  Each subsequent jar updates will be much faster.
+
+7. Guess what, now that you have your database info, you'll need to go back and add it into the environment variables, as in Step 3 above.    
+    I know... it's weird but if I wanted to use AWS database I have to create the environment first so they can generate an instance for me, which I'll need to plug into java then load it up.  It's kind of a chicken and egg scenario here...  
+    At first I created my own standalone database via AWS RDS, and declared it in the environment variables, but the deployed environment would not accept it unless it's the database they made as part of their own config process. 
+    If you use a built-in database like H2 in Spring then you won't have this headache I suppose.  
+    * RDS_HOSTNAME: {get this value from the URL endpoint of your database}
+    * RDS_PORT: 5432
+    * RDS_DB_NAME: {get this from your database}
+    * RDS_USERNAME: {whatever you chose}
+    * RDS_PASSWORD: {whatever you chose}  
+8.  Repeat Step 4... Now you should be deployed. 
   
-5. To get .jar file ready for deployment.  
-  On the far right you should see a Maven option, click on that, and click on 'install' under the 'Lifecycle' folder.  
-  You should see the console below saying 'Build Successful'.
-  
+9. To run it on your local machine.  
+  Click that little green triangle play button on the top right in IntelliJ.  
