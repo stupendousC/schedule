@@ -17,7 +17,7 @@ I have not fully implemented google access token authentication as of this writi
 
 ***
 
-## HOW TO SET UP ON MY OWN COMPUTER?
+## HOW TO SET UP ON MY OWN COMPUTER
 ### Requirements: 
 A. You need to sign up with Google OAuth via their Google API Console.  [Overview here](https://developers.google.com/identity/protocols/OAuth2)  
 B. You need a [Twilio](https://www.twilio.com/) account if you want to enable texting, which trust me, YOU DO.  
@@ -46,7 +46,7 @@ F. Java and Maven
   On the far right of IntelliJ you should see a Maven option, click on that, and click on 'install' under the 'Lifecycle' folder.  
   You should see the console below saying 'Build Successful'.  Now you have a {projectName}-SNAPSHOT.jar file in the target folder!
  
-5. Now you want to Go back to AWS
+5. Now you want to go to AWS
     * Click 'Create New Application' in Elastic Beanstalk.
     * Choose 'Web Server Environment'.
     * Choose an available domain name.  Below that, choose preconfigured platform of 'java'.
@@ -57,8 +57,7 @@ F. Java and Maven
 6. Click 'Create Environment' and go for a walk, this step took ~10 minutes the first time.  Each subsequent jar updates will be much faster.
 
 7. Guess what, now that you have your database info, you'll need to go back and add it into the environment variables, as in Step 3 above.    
-    I know... it's weird but if I wanted to use AWS database I have to create the environment first so they can generate an instance for me, which I'll need to plug into java then load it up.  It's kind of a chicken and egg scenario here...  
-    At first I created my own standalone database via AWS RDS, and declared it in the environment variables, but the deployed environment would not accept it unless it's the database they made as part of their own config process. 
+    I know... it's weird but if I wanted to use AWS database I have to create the environment first so they can generate an instance for me, which I'll need to plug into java then load it up.  It's kind of a chicken and egg scenario here...  At first I created my own standalone database via AWS RDS, and declared it in the environment variables, but the deployed environment would not accept it unless it's the database they made as part of their own config process.  
     If you use a built-in database like H2 in Spring then you won't have this headache I suppose.  
     * RDS_HOSTNAME: {get this value from the URL endpoint of your database}
     * RDS_PORT: 5432
@@ -69,4 +68,3 @@ F. Java and Maven
   
 9. To run it on your local machine.  
   Click that little green triangle play button on the top right in IntelliJ.  
-  OR... `java -jar {projectName}-SNAPSHOT.jar`  
