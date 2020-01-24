@@ -26,13 +26,6 @@ public class TextCtrller {
     @Autowired
     private ShiftSvc shiftSvc;
 
-
-    @PostMapping("/sendText")
-    public String sendSms(@Valid @RequestBody SmsRequest smsRequest) {
-        twilioSvc.sendSms(smsRequest);
-        return "Text sent to " + smsRequest.getPhoneNumber() + "\nMessage = " + smsRequest.getMessage();
-    }
-
     // When employees click on link that's inside their sms message...
     @GetMapping("/text/{uuid}")
     public Optional<Shift> uponEmployeeReply(@PathVariable String uuid) {
