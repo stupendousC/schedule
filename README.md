@@ -3,7 +3,7 @@
 
 This is my capstone project for <a href="https://adadevelopersacademy.org">Ada Developers Academy</a>.  I made this in 4 weeks, and that includes the [front end](https://github.com/stupendousC/schedulePlusPlus), and the back end(what you see here).  
 
-The front end is written in Javascript with React, and it's deployed via AWS S3, you can find it [here](http://schedplusplus.s3-website-us-west-2.amazonaws.com/).  The front end is not yet fully functional when deployed due to limitations in Google OAuth when your app has not been fully verified by them (which takes 3-5 weeks).  But for now you can still play with it on http://localhost:3000/.
+The front end is written in Javascript with React, and it's deployed via AWS S3, you can find it [here](http://schedplusplus.s3-website-us-west-2.amazonaws.com/).  The front end is deployed but not yet functional due to incomplete Google auth implementation, will finish later.  But for now, as of 1/23/2020 you can play with the whole thing on your http://localhost:3000/.
 
 The back end is written in Java using the Spring Boot framework, plus PostgreSQL database.  Deployed via AWS Elastic Beanstalk [here](http://schedplusplusbackend.us-west-2.elasticbeanstalk.com/), and the database is hosted via AWS RDS.
 
